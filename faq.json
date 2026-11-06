@@ -1,0 +1,72 @@
+[
+  {
+    "category": "Getting Started & Study Strategy",
+    "question": "Should I start my course by taking the Pre-Assessment (PA)?",
+    "answer": "Unless you already have significant prior experience with databases and SQL, we do not recommend taking the PA right away. The PA is best used as a checkpoint for OA readiness, not as a study guide.\n\nIf you want to self-assess early on, the end-of-chapter quizzes are a much better place to start.\n\nTaking the PA too early can subconsciously narrow your focus as you work through the material. Instead of learning broadly, you may find yourself evaluating every concept through the lens of, 'Was this on the PA?' Because the PA is only a sampler of the course content, it does not cover everything you need to know for the OA."
+  },
+  {
+    "category": "Getting Started & Study Strategy",
+    "question": "Which competency should I focus on?",
+    "answer": "All three competencies are important, and success in the course requires working through each of them:\n\n• For SQL (Chapters 2 & 3): The key is hands-on practice. Work through the labs until you can write SQL queries without relying on notes. If you are taking D427 next, this practice will make that course significantly easier. Even if D427 is not in your program, repeated practice is essential for passing D426.\n• For Database Design, Normalization & Indexes (Chapters 4 & 5): Many students struggle most with the third competency because it is more theoretical and accounts for 43% of the assessment. Spend as much time as you need here to build a solid conceptual understanding."
+  },
+  {
+    "category": "Getting Started & Study Strategy",
+    "question": "Are there any supplemental resources for this course?",
+    "answer": "Yes! Curated supplemental resources (videos, W3Schools syntax guides, interactive playgrounds, and practice quizzes) are linked directly inside each module of this study plan.\n\nWe also maintain the WGU Student Facing Resources folder: https://westerngovernorsuniversity.sharepoint.com/:f:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources?d=wa2efbb93aa9a46ed980c0b8561f47e74&csf=1&web=1&e=kO1jml\n\nIf you contact your assigned Course Instructor for additional resources, let them know what you have already tried and what didn't click so they can match materials to your learning style."
+  },
+  {
+    "category": "Getting Started & Study Strategy",
+    "question": "I heard there are flashcards I can use—are they recommended?",
+    "answer": "Flashcards are helpful early in the course for learning new terminology, but they should not be your primary study method. In D426, it is far more important to understand how each concept is applied than to memorize definitions in isolation. Use flashcards as a supplement alongside your reading and labs.\n\nRecommended Quizlet Sets:\n• Set 1: https://quizlet.com/803779911/wgu-d426-v2-flash-cards/\n• Set 2: https://quizlet.com/932127095/d426-data-management-foundations-flash-cards/?i=16xq87&x=1jqt"
+  },
+  {
+    "category": "Cohorts & Instructor Support",
+    "question": "Where can I see the cohort offerings?",
+    "answer": "On your WGU course page, click the 'Explore Cohort Offerings' button. WGU Connect also displays the weekly and monthly cohort schedules, or you can reach out to your Program Mentor (PM) or Course Instructor (CI)."
+  },
+  {
+    "category": "Cohorts & Instructor Support",
+    "question": "I do not have time for live cohorts—what are my options?",
+    "answer": "We offer live cohorts every day at varying hours, so double-check the schedule to see if one fits. While most live cohorts are not recorded, we offer Self-Paced Mini Cohorts that you can complete on your own schedule—links to these are included directly in your study modules and on the course page."
+  },
+  {
+    "category": "Cohorts & Instructor Support",
+    "question": "What should I do if my Course Instructor is Out of Office?",
+    "answer": "Please email our centralized course team inbox at d426@wgu.edu and any available instructor on our team will be happy to assist you."
+  },
+  {
+    "category": "Objective Assessment (OA) & Retake Policies",
+    "question": "Do you have any tips for taking the Objective Assessment (OA)?",
+    "answer": "1. Trust your preparation: Make this experience your own—you've put in the work!\n2. Predict before peeking: Read each question carefully and formulate the answer in your head before looking at the multiple-choice options.\n3. Don't talk yourself out of the right answer: Think about why the answer you picked is correct rather than second-guessing yourself.\n4. Pace yourself: Take your time! If a question doesn't click right away, bookmark it, move on, and come back later.\n5. Reread before submitting: Later questions on the exam often jog your memory or give context clues for earlier ones.\n6. Protect your headspace: If your proctoring check-in starts off poorly and you feel flustered before the exam begins, do not force it. As long as you have not started the OA, you can reschedule."
+  },
+  {
+    "category": "Objective Assessment (OA) & Retake Policies",
+    "question": "I did not pass the OA—what should I do next?",
+    "answer": "First, don't panic! Not passing is not a failure; it is simply a checkpoint showing where we need to focus before your next attempt.\n\n1. Do NOT click 'Request Approval' immediately after seeing your score.\n2. Email your assigned Course Instructor (CI) or book an appointment to review your Coaching Report and co-create a custom retake plan. Due to accreditation requirements, retake approval is granted only after completing your CI-designed retake plan.\n3. If you haven't finished all Zybooks readings and labs yet, start completing the remaining sections.\n4. Review WGU's Multiple-Attempts Policy here: https://cm.wgu.edu/t5/WGU-Student-Policy-Handbook/Assessment-Policies/ta-p/133"
+  },
+  {
+    "category": "Objective Assessment (OA) & Retake Policies",
+    "question": "I only missed a few questions or one competency. Why am I asked to review the whole book?",
+    "answer": "We take a holistic approach to retake plans so your Coaching Report does not 'flip' on your next attempt (where a previously strong section drops while you focus only on one gap). Continuing to practice areas where you scored Competent keeps all skills sharp while we close the gap."
+  },
+  {
+    "category": "Objective Assessment (OA) & Retake Policies",
+    "question": "Wait, 4 attempts? What happens if I do not pass in 4 tries?",
+    "answer": "Each Objective Assessment at WGU is limited to 4 total attempts (even across terms). Because D426 is required for all School of Technology programs, not passing within 4 attempts may require changing your major outside of Technology. While a 5th-attempt appeal process exists, approvals are rare—which is why we treat every attempt seriously and partner closely with you on preparation."
+  },
+  {
+    "category": "Technical & App Troubleshooting",
+    "question": "I had a technical or proctoring issue during the exam—who do I contact?",
+    "answer": "Please contact WGU Assessment Services immediately at assessmentservices@wgu.edu or by phone at extension 3109."
+  },
+  {
+    "category": "Technical & App Troubleshooting",
+    "question": "I cannot access some links on this app.",
+    "answer": "Make sure you are logged into your WGU student account in the same browser to access SharePoint, Panopto, Salesforce cohorts, and Microsoft Forms links. If a link still appears broken, please reach out to lythia.amoakon@wgu.edu for help."
+  },
+  {
+    "category": "Technical & App Troubleshooting",
+    "question": "Will my study plan progress carry over if I switch devices or clear my browser cache?",
+    "answer": "Your study plan progress is saved automatically in your current browser's Local Storage so you never have to log in. If you switch computers or clear your browser data, simply re-enter your target date and check off your completed chapters."
+  }
+]

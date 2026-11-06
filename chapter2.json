@@ -1,0 +1,349 @@
+[
+  {
+    "module_id": 5,
+    "chapter": 2,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "zybooks_sections": [
+      {
+        "section": "2.1 Structured Query Language",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.2 Managing databases",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "The 5 SQL sub-languages (Emphasis on DDL and DML)",
+      "Language elements (Review Tables 2.1.1 and 2.1.2)",
+      "CREATE, DROP, USE, and SHOW commands"
+    ],
+    "resources": [
+      {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 2 Focus)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      },
+      {
+        "type": "video",
+        "title": "Watch: SQL Sublanguages & Data Management Big Picture",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/../../../../../../:v:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/Sublanguages%20_%20See%20Data%20Management%20Big%20Picture%20(PB)_default_4a43e30b.mp4?csf=1&web=1&e=WWg81w"
+      },
+      {
+        "type": "article",
+        "title": "GeeksforGeeks: SQL DDL, DQL, DML, DCL, and TCL Commands",
+        "url": "https://www.geeksforgeeks.org/sql/sql-ddl-dql-dml-dcl-tcl-commands/"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CREATE DATABASE Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_create_db.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL DROP DATABASE Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_drop_db.asp"
+      },
+      {
+        "type": "interactive",
+        "title": "Interactive Activity: DDL vs. DML Syntax Drag & Drop",
+        "url": "https://yourfavci.github.io/DM.github.io/SyntaxActivity/index.html"
+      },
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: DDL vs. DML Commands Only",
+        "url": "https://forms.office.com/r/76PctyKXmX"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: DDL vs. DML",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      }
+    ]
+  },
+  {
+    "module_id": 6,
+    "chapter": 2,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "2.3 Tables",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.4 Data types",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.11 LAB - Create Movie table",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.12 LAB - Alter Movie table",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Tables, columns, rows, cells, and table rules",
+      "Common MySQL data types (Review Table 2.4.2)",
+      "DDL commands: CREATE TABLE, ALTER TABLE",
+      "CRITICAL: For modifying columns, we use the CHANGE command (not RENAME)"
+    ],
+    "resources": [
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Data Types Reference",
+        "url": "https://www.w3schools.com/mysql/mysql_datatypes.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CREATE TABLE Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_create_table.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL ALTER TABLE Statement (ADD, DROP, CHANGE)",
+        "url": "https://www.w3schools.com/mysql/mysql_alter.asp"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Data Types & Table Management",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      }
+    ]
+  },
+  {
+    "module_id": 7,
+    "chapter": 2,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "2.5 Null values",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.6 Inserting, updating, and deleting rows",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.13 LAB - Insert rows into Horse table",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.14 LAB - Update rows in Horse table",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.15 LAB - Delete rows from Horse table",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "NULLs and the NOT NULL constraint",
+      "DML commands: INSERT, UPDATE, DELETE",
+      "DDL command: TRUNCATE"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Understanding NULL Values in SQL",
+        "url": "https://www.youtube.com/watch?v=bTFJ3eeR3_s"
+      },
+      {
+        "type": "video",
+        "title": "Watch: SQL NOT NULL Constraint Explained",
+        "url": "https://www.youtube.com/watch?v=unzHhq82mKU"
+      },
+      {
+        "type": "video",
+        "title": "Watch: CRUD Operations (INSERT, SELECT, UPDATE, DELETE) (4 min)",
+        "url": "https://www.youtube.com/watch?v=RM_NiPSaPG0"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL NOT NULL Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_not_null.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL INSERT INTO Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_insert.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL UPDATE Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_update.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL DELETE Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_delete.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL DROP & TRUNCATE TABLE",
+        "url": "https://www.w3schools.com/mysql/mysql_drop_table.asp"
+      },
+      {
+        "type": "cohort",
+        "title": "D427 Cohort 1: DDL and DML (Syntax Heavy)",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000d4oXIAQ"
+      }
+    ]
+  },
+  {
+    "module_id": 8,
+    "chapter": 2,
+    "competency": "Defines Primary Keys",
+    "zybooks_sections": [
+      {
+        "section": "2.7 Primary keys",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.8 Foreign keys",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Primary Keys and the PRIMARY KEY Constraint",
+      "Foreign Keys and the FOREIGN KEY Constraint"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Introduction to Primary & Foreign Keys",
+        "url": "https://www.youtube.com/watch?v=8wUUMOKAK-c"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL PRIMARY KEY Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_primarykey.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL FOREIGN KEY Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_foreignkey.asp"
+      }
+    ]
+  },
+  {
+    "module_id": 9,
+    "chapter": 2,
+    "competency": "Defines Primary Keys",
+    "zybooks_sections": [
+      {
+        "section": "2.9 Referential integrity",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.10 Constraints",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.16 LAB - Create Horse table with constraints",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.17 LAB - Create Student table with constraints",
+        "is_core_concept": true
+      },
+      {
+        "section": "2.18 LAB - Create LessonSchedule table with FK constraints",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Referential integrity rules and actions (RESTRICT, SET NULL, SET DEFAULT, CASCADE)",
+      "Column vs. table constraints",
+      "UNIQUE, CHECK, and adding/dropping constraints with ALTER TABLE"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: MySQL UNIQUE Constraint Explained — Bro Code",
+        "url": "https://www.youtube.com/watch?v=Of_-2pBeL0g&list=PLZPZq0r_RZOMskz6MdsMOgxzheIyjo-BZ&index=10"
+      },
+      {
+        "type": "video",
+        "title": "Watch: MySQL CHECK Constraint Explained — Dr. Soper",
+        "url": "https://www.youtube.com/watch?v=Ye1xHd7wq_Y&list=PL1LIXLIF50uURxYXfBCaAXDzSdZlQiESy&index=30"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Constraints Overview",
+        "url": "https://www.w3schools.com/mysql/mysql_constraints.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL UNIQUE Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_unique.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CHECK Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_check.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL DEFAULT Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_default.asp"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt: Interactive SQL Lesson & Practice",
+        "url": "https://sqlbolt.com/lesson/introduction"
+      }
+    ]
+  },
+  {
+    "module_id": 10,
+    "chapter": 2,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "is_mastery_gate": true,
+    "zybooks_sections": [
+      {
+        "section": "2.19 Chapter 2 Practice Quiz",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Chapter 2 Holistic Review (Score 80%+ on Zybooks 2.19 Practice Quiz)"
+    ],
+    "resources": [
+      {
+        "type": "cohort",
+        "title": "All Self-Paced Mini Cohorts Hub",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      }
+    ]
+  },
+  {
+    "module_id": 11,
+    "chapter": 2,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "is_milestone": true,
+    "zybooks_sections": [
+      {
+        "section": "Competency 1 Milestone Checkpoints",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Milestone Check: Test your mastery of Competency 1 (Explains Database Attributes and SQL Commands)",
+      "Complete both one-attempt Microsoft Forms Checkpoint Quizzes below"
+    ],
+    "resources": [
+      {
+        "type": "quiz",
+        "title": "Competency 1 Milestone Quiz 1 (One Attempt)",
+        "url": "https://forms.cloud.microsoft/r/suWpQjrVPC"
+      },
+      {
+        "type": "quiz",
+        "title": "Competency 1 Milestone Quiz 2 (One Attempt)",
+        "url": "https://forms.cloud.microsoft/r/3ECuQ1SQtU"
+      }
+    ]
+  }
+]

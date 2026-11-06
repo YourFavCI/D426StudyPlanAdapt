@@ -1,0 +1,294 @@
+[
+  {
+    "module_id": 20,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Conceptual Design Phase)",
+    "has_competency_banner": true,
+    "zybooks_sections": [
+      {
+        "section": "4.1 Entities, relationships, and attributes",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.2 Discovery",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "WGU Competency Mapping: Database Design = Conceptual Phase, Normalization = Logical Phase, Indexes = Physical Phase",
+      "ER models (Entities, Attributes, Relationships)",
+      "Types vs. Instances and the Conceptual/Logical/Physical design overview",
+      "Business needs discovery, naming conventions, and glossaries"
+    ],
+    "resources": [
+      {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 4 Focus)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      },
+      {
+        "type": "document",
+        "title": "Interactive Study Doc: Glossary for Database Design",
+        "url": "https://westerngovernorsuniversity-my.sharepoint.com/:w:/g/personal/lythia_amoakon_wgu_edu/EbXZX5SrhIZJtW1utlHS0GcBjaKJtovWruba9HNDAh2cxQ?e=TcInuY",
+        "instructions": "Try to fill in all definitions and examples without looking them up first. Then use Zybooks or W3Schools to complete/correct your entries. Ask yourself: 'Can I write this from memory?' and 'Can I explain this out loud to someone else?'"
+      }
+    ]
+  },
+  {
+    "module_id": 21,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Conceptual Design Phase)",
+    "zybooks_sections": [
+      {
+        "section": "4.3 Binary relationships",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.4 Unary relationships",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.5 Ternary relationships",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Binary relationships (1:1, 1:M, M:M) and intersection data/bridge tables",
+      "Unary relationships (1:1, 1:M, M:M)",
+      "Ternary relationships"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Unary Relationships Explained — Dr. Soper (6 min)",
+        "url": "https://www.youtube.com/watch?v=On4ITNnhSKc"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Entity Relationships Cohort Recording (15 min)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bae03e4f-4a5f-44ca-ae59-ca2bf66ce2f1"
+      }
+    ]
+  },
+  {
+    "module_id": 22,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Conceptual Design Phase)",
+    "zybooks_sections": [
+      {
+        "section": "4.6 Cardinality",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Cardinality vs. Modality (relationship maximum vs. minimum)",
+      "Optional vs. required relationships",
+      "Unique attributes"
+    ],
+    "resources": [
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Entities, Attributes, Relationships & Cardinality",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      }
+    ]
+  },
+  {
+    "module_id": 23,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Conceptual Design Phase)",
+    "zybooks_sections": [
+      {
+        "section": "4.7 Strong and weak entities",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.8 Supertype and subtype entities",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.9 Alternative modeling conventions",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Strong vs. Weak entities and Identifying relationships",
+      "Supertype/Subtype entities ('IS A' relationships)",
+      "Alternative conventions (Crow's foot and textual notation)"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Weak vs. Strong Entities — Dr. Soper (6 min)",
+        "url": "https://www.youtube.com/watch?v=9gxxu5E2-SQ"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Supertype and Subtype Entities — Dr. Soper (16 min)",
+        "url": "https://www.youtube.com/watch?v=zf0_jg1rXrs"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Relationship Types Cohort Recording (12 min)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=3ee2dd57-c9e1-4c5d-b3a1-b0370151b534"
+      },
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: Database Design Fundamentals (Entities, Attributes, Relationships)",
+        "url": "https://forms.cloud.microsoft/r/6W74KZ3p2y"
+      }
+    ]
+  },
+  {
+    "module_id": 24,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Logical Design Phase)",
+    "zybooks_sections": [
+      {
+        "section": "4.10 Implementing entities",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.11 Implementing relationships",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.12 Implementing attributes",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Implementing entities (selecting primary keys, strong vs. weak, supertypes/subtypes)",
+      "Mapping binary relationships (1:1, 1:M, M:M) using Primary and Foreign Keys",
+      "Handling plural attributes and required/unique cardinality constraints"
+    ],
+    "resources": [
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL PRIMARY KEY Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_primarykey.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL FOREIGN KEY Constraint",
+        "url": "https://www.w3schools.com/mysql/mysql_foreignkey.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL UNIQUE & NOT NULL Constraints",
+        "url": "https://www.w3schools.com/mysql/mysql_constraints.asp"
+      }
+    ]
+  },
+  {
+    "module_id": 25,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Logical Design Phase)",
+    "zybooks_sections": [
+      {
+        "section": "4.13 First, second, and third normal form",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Functional dependence",
+      "1NF, 2NF, and the informal 3NF definition"
+    ],
+    "resources": [
+      {
+        "type": "interactive",
+        "title": "Interactive Tutorial: First Normal Form (1NF) (20 min)",
+        "url": "https://wisconlineoer.blob.core.windows.net/learning-object/itdb314/3OTCBI9Y/story_html5.html?lms=1"
+      },
+      {
+        "type": "interactive",
+        "title": "Interactive Tutorial: Second Normal Form (2NF) (10 min)",
+        "url": "https://wisconlineoer.blob.core.windows.net/learning-object/itdb414/FWWY27FP/story_html5.html?lms=1"
+      },
+      {
+        "type": "interactive",
+        "title": "Interactive Tutorial: Third Normal Form (3NF) (5 min)",
+        "url": "https://wisconlineoer.blob.core.windows.net/learning-object/itdb514/0EF6POUB/story_html5.html?lms=1"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Keys and Normalization Part 1",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      },
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: Keys & Normalization Part 1",
+        "url": "https://forms.cloud.microsoft/r/iPSGjhgfMR"
+      }
+    ]
+  },
+  {
+    "module_id": 26,
+    "chapter": 4,
+    "competency": "Defines Primary Keys (Logical Design Phase)",
+    "zybooks_sections": [
+      {
+        "section": "4.14 Boyce-Codd normal form",
+        "is_core_concept": true
+      },
+      {
+        "section": "4.15 Applying normal form",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Key definitions (Superkey, Candidate Key, Primary Key)",
+      "Redundancy vs. dependence and formal 3NF",
+      "Boyce-Codd Normal Form (the 3.5NF gold standard) and denormalization",
+      "Note: Zybooks Labs 4.16 and 4.17 are optional and omitted from the required queue"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Database Normalization (1NF to BCNF) — Decomplexify (First 20 min)",
+        "url": "https://www.youtube.com/watch?v=GFQaEYEc8_8"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Normalization Deep-Dive Cohort Recording (32 min)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2826a49c-cd20-493a-ab1f-20684316792d"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Keys and Normalization Part 2",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Normalization Hands-On Activity",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      }
+    ]
+  },
+  {
+    "module_id": 27,
+    "chapter": 4,
+    "competency": "Defines Primary Keys",
+    "zybooks_sections": [
+      {
+        "section": "4.18 Chapter 4 Practice Quiz",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Chapter 4 Holistic Review"
+    ],
+    "resources": [
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: Database Design Fundamentals (Keys & Normalization)",
+        "url": "https://forms.cloud.microsoft/r/C09zmkwq8N"
+      },
+      {
+        "type": "quiz",
+        "title": "Quiz 3: Database Design, Keys, and Normalization",
+        "url": "https://forms.cloud.microsoft/r/iKUvAYCbPt"
+      }
+    ]
+  }
+]

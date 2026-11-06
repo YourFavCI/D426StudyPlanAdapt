@@ -1,0 +1,169 @@
+[
+  {
+    "module_id": 28,
+    "chapter": 5,
+    "competency": "Defines Primary Keys (Physical Design Phase - Indexes)",
+    "zybooks_sections": [
+      {
+        "section": "5.1 Table structures",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "What is a table structure?",
+      "Definitions of the four common structures: Heap table, Sorted table, Hash table, and Table cluster"
+    ],
+    "resources": [
+      {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 5 Focus)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      },
+      {
+        "type": "document",
+        "title": "Interactive Study Doc: Indexes & Table Structures Definitions",
+        "url": "https://westerngovernorsuniversity-my.sharepoint.com/:w:/g/personal/lythia_amoakon_wgu_edu/IQDroXxJyRqoSrdBHQe-cEHgAZuh8PQ2Thm6LuHm-UrU-3o?e=4LIThb"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Investigating Indexes & Table Structures (Sections 5.1 & 5.2)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/../../../../_layouts/15/stream.aspx?id=%2Fsites%2FDataScienceTeam%2FShared%20Documents%2FUndergraduate%20Team%2FD426%2FStudent%20Facing%20Resources%2FInvestigating%20Indexes%20Cohort%2Emp4&startedResponseCatch=true&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E46bedbe1%2D6283%2D49f0%2D8839%2Dcb68bbaf5fbc"
+      }
+    ]
+  },
+  {
+    "module_id": 29,
+    "chapter": 5,
+    "competency": "Defines Primary Keys (Physical Design Phase - Indexes)",
+    "zybooks_sections": [
+      {
+        "section": "5.2 Single-level indexes",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Multicolumn vs. single-column indexes",
+      "CREATE INDEX command",
+      "Query processing: Table scan vs. index scan",
+      "Hit ratio (filter factor / selectivity) and how the DB chooses scan types",
+      "Binary search mechanics",
+      "Primary vs. secondary indexes (Clustering vs. non-clustering)",
+      "Dense vs. sparse indexes",
+      "The cost of indexes: What happens during inserts, updates, and deletes"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Fundamentals of Table Indexing (WGU Stream)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/../../../../_layouts/15/stream.aspx?id=%2Fsites%2FDataScienceTeam%2FShared%20Documents%2FUndergraduate%20Team%2FD426%2FStudent%20Facing%20Resources%2FFundamentals%20of%20Table%20Indexing%20%28PB%29%5Fdefault%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ec89c72d2%2Df5f7%2D415d%2D992c%2D9eeb86b7844d"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Database Indexes Deep-Dive — Dr. Soper (40 min)",
+        "url": "https://www.youtube.com/watch?v=Xk3cgUdoieU&list=PL1LIXLIF50uXWJ9alDSXClzNCMynac38g&index=7"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CREATE INDEX & DROP INDEX Statements",
+        "url": "https://www.w3schools.com/mysql/mysql_create_index.asp"
+      },
+      {
+        "type": "cohort",
+        "title": "Asynchronous Cohort: Investigating Indexes",
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?cohortId=a2yS6000002Flez"
+      },
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: Physical Design & Indexes",
+        "url": "https://forms.cloud.microsoft/r/XTzpP7RBKy"
+      }
+    ]
+  },
+  {
+    "module_id": 30,
+    "chapter": 5,
+    "competency": "Defines Primary Keys (Physical Design Phase - Indexes)",
+    "zybooks_sections": [
+      {
+        "section": "5.3 Chapter 5 Practice Quiz",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "Chapter 5 Holistic Review"
+    ],
+    "resources": [
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CREATE INDEX Review",
+        "url": "https://www.w3schools.com/mysql/mysql_create_index.asp"
+      }
+    ]
+  },
+  {
+    "module_id": 31,
+    "chapter": 5,
+    "competency": "Defines Primary Keys",
+    "is_milestone": true,
+    "zybooks_sections": [
+      {
+        "section": "Competency 3 Milestone Checkpoints",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Milestone Check: Test your mastery of Competency 3 (Defines Primary Keys: Design, Normalization & Indexes)",
+      "Complete both Competency 3 Checkpoint Quizzes below"
+    ],
+    "resources": [
+      {
+        "type": "quiz",
+        "title": "Competency 3 Milestone Quiz 1",
+        "url": "https://forms.cloud.microsoft/r/vpYirM3uG8"
+      },
+      {
+        "type": "quiz",
+        "title": "Competency 3 Milestone Quiz 2",
+        "url": "https://forms.cloud.microsoft/r/1DZgRxhWpC"
+      }
+    ]
+  },
+  {
+    "module_id": 32,
+    "chapter": 5,
+    "competency": "Holistic OA Readiness",
+    "is_milestone": true,
+    "zybooks_sections": [
+      {
+        "section": "Final Objective Assessment (OA) Readiness Challenges",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Comprehensive Course Review across all 3 Competencies",
+      "Complete the 75, 90, and 100-Question Holistic Practice Challenges to verify OA readiness"
+    ],
+    "resources": [
+      {
+        "type": "cohort",
+        "title": "D426 Pre-Assessment Review Cohort (Available after taking the PA)",
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?cohortId=a2yS6000002FmCr"
+      },
+      {
+        "type": "quiz",
+        "title": "Holistic Challenge 1: 75-Question Practice Challenge",
+        "url": "https://forms.office.com/Pages/ResponsePage.aspx?id=z5Knz2h3QUOIV4F1TCr6H1PxWva3AvtGgiAliaoZRO1UNjgzSVc0TTZDRTFRUTBOTVREMk9PUzgyUy4u"
+      },
+      {
+        "type": "quiz",
+        "title": "Holistic Challenge 2: 90-Question Practice Challenge",
+        "url": "https://forms.office.com/Pages/ResponsePage.aspx?id=z5Knz2h3QUOIV4F1TCr6H1PxWva3AvtGgiAliaoZRO1UNVhLTEYxNlk4UDc3UUU3NVRJVTJWNjJIWi4u"
+      },
+      {
+        "type": "quiz",
+        "title": "Holistic Challenge 3: 100-Question Practice Challenge",
+        "url": "https://forms.office.com/pages/responsepage.aspx?id=z5Knz2h3QUOIV4F1TCr6H5hQ5tsPo5JIjvbWTEENY_xUNFM1TUxSRzJZV1BaN1JUQzhCTlhNVjdJWC4u&route=shorturl"
+      }
+    ]
+  }
+]

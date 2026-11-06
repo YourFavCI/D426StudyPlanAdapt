@@ -1,0 +1,383 @@
+[
+  {
+    "module_id": 12,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.1 Selecting rows",
+        "is_core_concept": false
+      },
+      {
+        "section": "3.2 Null arithmetic and comparisons",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "SELECT and FROM basics",
+      "WHERE clause and common operators (Review Table 3.1.1)",
+      "Operator precedence (Review Table 3.1.2)",
+      "NULL arithmetic, IS NULL, and IS NOT NULL logic"
+    ],
+    "resources": [
+      {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 3 Focus)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      },
+      {
+        "type": "document",
+        "title": "Interactive Study Doc: Glossary for SQL Queries",
+        "url": "https://westerngovernorsuniversity-my.sharepoint.com/:w:/g/personal/lythia_amoakon_wgu_edu/EQkeOti3HpxEjAwgqqrZPe8BjaPwor5-Asa4t4A8hAssJw?e=u1rajM"
+      },
+      {
+        "type": "interactive",
+        "title": "OneCompiler: Live MySQL SELECT Playground",
+        "url": "https://onecompiler.com/mysql/44kjtx28y"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL SELECT Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_select.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL WHERE Clause",
+        "url": "https://www.w3schools.com/mysql/mysql_where.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL ORDER BY Keyword",
+        "url": "https://www.w3schools.com/mysql/mysql_orderby.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL NULL Values (IS NULL / IS NOT NULL)",
+        "url": "https://www.w3schools.com/mysql/mysql_null_values.asp"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Sorting Results with ORDER BY in SQL",
+        "url": "https://www.youtube.com/watch?v=wyWnJ7QYME4&list=PLGPGLQRuosDJNfq8vdtLSZ5YbNbkYZkSU&index=4&pp=iAQB"
+      },
+      {
+        "type": "cohort",
+        "title": "D427 Cohort 2: Queries, Views & Indexes (SELECT Focus)",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000d4yDIAQ"
+      }
+    ]
+  },
+  {
+    "module_id": 13,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.3 Special operators and clauses",
+        "is_core_concept": false
+      },
+      {
+        "section": "3.9 LAB - Select horses with logical operators",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "IN, BETWEEN, and LIKE operators",
+      "Applying logical operators (AND, OR, NOT) and DISTINCT in WHERE statements"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Filtering Data with IN, BETWEEN, and LIKE",
+        "url": "https://www.youtube.com/watch?v=4Uv0o8IBqw0&list=PLGPGLQRuosDJNfq8vdtLSZ5YbNbkYZkSU&index=5"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL AND, OR, and NOT Operators",
+        "url": "https://www.w3schools.com/mysql/mysql_and_or.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL IN Operator",
+        "url": "https://www.w3schools.com/mysql/mysql_in.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL BETWEEN Operator",
+        "url": "https://www.w3schools.com/mysql/mysql_between.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL LIKE Operator & Wildcards",
+        "url": "https://www.w3schools.com/mysql/mysql_like.asp"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lab Walkthrough: Queries with Constraints",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_constraints"
+      }
+    ]
+  },
+  {
+    "module_id": 14,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.4 Simple functions",
+        "is_core_concept": false
+      },
+      {
+        "section": "3.5 Aggregate functions",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Numeric functions (ABS, RAND), string functions (CONCAT, LOWER, UPPER), date/time functions",
+      "The 5 core aggregate functions (COUNT, MIN, MAX, SUM, AVG)",
+      "Grouping data with GROUP BY and filtering groups with HAVING"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Aggregate Functions Explained — Becoming a Data Scientist (5 min)",
+        "url": "https://www.youtube.com/watch?v=jcoJuc5e3RE"
+      },
+      {
+        "type": "video",
+        "title": "Watch: SQL GROUP BY Clause Explained — Database Star (5 min)",
+        "url": "https://www.youtube.com/watch?v=x2_mOJ3skSc"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Built-in Functions Reference (String, Numeric, Date)",
+        "url": "https://www.w3schools.com/mysql/mysql_ref_functions.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL MIN() and MAX() Functions",
+        "url": "https://www.w3schools.com/mysql/mysql_min_max.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL COUNT(), AVG(), and SUM() Functions",
+        "url": "https://www.w3schools.com/mysql/mysql_count_avg_sum.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL GROUP BY Statement",
+        "url": "https://www.w3schools.com/mysql/mysql_groupby.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL HAVING Clause",
+        "url": "https://www.w3schools.com/mysql/mysql_having.asp"
+      },
+      {
+        "type": "cohort",
+        "title": "D427 Cohort 3: Joins & Aggregate Functions",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000x27RIAQ"
+      }
+    ]
+  },
+  {
+    "module_id": 15,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.6 Join queries",
+        "is_core_concept": true
+      },
+      {
+        "section": "3.10 LAB - Select movie ratings with left join",
+        "is_core_concept": true
+      },
+      {
+        "section": "3.11 LAB - Select lesson schedule with inner join",
+        "is_core_concept": true
+      },
+      {
+        "section": "3.12 LAB - Select lesson schedule with multiple joins",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Prefixes and table/column aliases (AS)",
+      "Inner vs. Full joins",
+      "Left vs. Right joins"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: MySQL JOINs Explained — Bro Code (5 min)",
+        "url": "https://www.youtube.com/watch?v=G3lJAxg1cy8"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Joins & Aggregate Functions Cohort Recording (2.5 hr | Password: hJPBmx*6)",
+        "url": "https://wgu.webex.com/recordingservice/sites/wgu/recording/d62077c636b945a891116bccb4da7967/playback"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Aliases (AS)",
+        "url": "https://www.w3schools.com/mysql/mysql_alias.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Joins Overview (INNER, LEFT, RIGHT)",
+        "url": "https://www.w3schools.com/mysql/mysql_join.asp"
+      },
+      {
+        "type": "interactive",
+        "title": "OneCompiler: Live SQL Joins Playground",
+        "url": "https://onecompiler.com/mysql/44gybyagu"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lab Walkthrough: Multi-Table Queries with JOINs",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_joins"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Joins Video & Interactive Join Activity",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+      },
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: SQL Joins Only",
+        "url": "https://forms.cloud.microsoft/r/rsJ4rixntv"
+      }
+    ]
+  },
+  {
+    "module_id": 16,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.7 Equijoins, self-joins, and cross-joins",
+        "is_core_concept": true
+      },
+      {
+        "section": "3.8 Subqueries",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Equijoins and non-equijoins",
+      "Self-joins (joining a table to itself using aliases)",
+      "Cross-joins",
+      "Subqueries and nested queries"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: SQL Self-Join Explained — Database Star (10 min)",
+        "url": "https://www.youtube.com/watch?v=7T8b7g7aV1A"
+      },
+      {
+        "type": "video",
+        "title": "Watch: SQL Cross JOINs Explained — Ryan & Matt Data Science (5 min)",
+        "url": "https://www.youtube.com/watch?v=H0ClRsRoNuQ"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Self Join",
+        "url": "https://www.w3schools.com/mysql/mysql_join_self.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CROSS JOIN Keyword",
+        "url": "https://www.w3schools.com/mysql/mysql_join_cross.asp"
+      },
+      {
+        "type": "quiz",
+        "title": "Practice Quiz: Joins & Aggregate Functions",
+        "url": "https://forms.cloud.microsoft/r/z2hG7uqYAm"
+      }
+    ]
+  },
+  {
+    "module_id": 17,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.8 View tables",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "How and why to create views (CREATE VIEW)",
+      "Querying views and their advantages (security, simplicity)",
+      "Inserting, updating, and deleting within views (WITH CHECK OPTION)"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: MySQL Views Explained — Bro Code (6 min)",
+        "url": "https://www.youtube.com/watch?v=wciubfRhvtM"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL CREATE VIEW, REPLACE VIEW, DROP VIEW",
+        "url": "https://www.w3schools.com/mysql/mysql_view.asp"
+      },
+      {
+        "type": "cohort",
+        "title": "D427 Cohort 2: Queries, Views & Indexes (Views Focus)",
+        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000d4yDIAQ"
+      }
+    ]
+  },
+  {
+    "module_id": 18,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "zybooks_sections": [
+      {
+        "section": "3.13 Chapter 3 Practice Quiz",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "Chapter 3 Holistic Review"
+    ],
+    "resources": [
+      {
+        "type": "quiz",
+        "title": "Quiz 2: SQL Queries (With Joins)",
+        "url": "https://forms.office.com/r/jficxUuihV"
+      }
+    ]
+  },
+  {
+    "module_id": 19,
+    "chapter": 3,
+    "competency": "Determines SQL Queries",
+    "is_milestone": true,
+    "zybooks_sections": [
+      {
+        "section": "Competency 2 Milestone Checkpoints",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Milestone Check: Test your mastery of Competency 2 (Determines SQL Queries)",
+      "Complete both Competency 2 Checkpoint Quizzes below before moving to Database Design"
+    ],
+    "resources": [
+      {
+        "type": "quiz",
+        "title": "Competency 2 Milestone Quiz 1",
+        "url": "https://forms.cloud.microsoft/r/x5BFWfHDLu"
+      },
+      {
+        "type": "quiz",
+        "title": "Competency 2 Milestone Quiz 2",
+        "url": "https://forms.cloud.microsoft/r/mMibgWr7LS"
+      }
+    ]
+  }
+]
