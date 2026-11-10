@@ -1,0 +1,137 @@
+[
+  {
+    "module_id": 1,
+    "chapter": 1,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "zybooks_sections": [
+      {
+        "section": "1.1 Database basics",
+        "is_core_concept": true
+      },
+      {
+        "section": "1.2 Database systems",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "What is data vs. a database",
+      "Different database roles",
+      "Files vs. database systems",
+      "What is a transaction",
+      "Database architecture",
+      "Leading database products"
+    ],
+    "resources": [
+      {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 1 Focus)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Overview of Database Systems — Dr. Soper (12 min)",
+        "url": "https://www.youtube.com/watch?v=RA9ZGgtlDzE&list=PL1LIXLIF50uURxYXfBCaAXDzSdZlQiESy&index=8"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: Introduction to SQL & Relational Databases",
+        "url": "https://www.w3schools.com/sql/sql_intro.asp"
+      }
+    ]
+  },
+  {
+    "module_id": 2,
+    "chapter": 1,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "zybooks_sections": [
+      {
+        "section": "1.3 Query languages",
+        "is_core_concept": false
+      },
+      {
+        "section": "1.4 Database design and programming",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "CRUD operations",
+      "What SQL stands for",
+      "Introduction to queries",
+      "Conceptual, Logical, and Physical design phases",
+      "Programming and APIs"
+    ],
+    "resources": [
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL SQL Syntax & Commands Overview",
+        "url": "https://www.w3schools.com/mysql/mysql_sql.asp"
+      },
+      {
+        "type": "video",
+        "title": "Watch: CRUD Operations in 4 Minutes",
+        "url": "https://www.youtube.com/watch?v=RM_NiPSaPG0"
+      }
+    ]
+  },
+  {
+    "module_id": 3,
+    "chapter": 1,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "zybooks_sections": [
+      {
+        "section": "1.5 MySQL",
+        "is_core_concept": false
+      },
+      {
+        "section": "1.6 Relational model",
+        "is_core_concept": true
+      }
+    ],
+    "topics": [
+      "Introduction to MySQL",
+      "Different types of database models",
+      "Relational data structure",
+      "Relational operations",
+      "Relational rules vs. business rules"
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Introduction to Databases — Dr. Soper (40 min)",
+        "url": "https://www.youtube.com/watch?v=4Z9KEBexzcM"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL Introduction",
+        "url": "https://www.w3schools.com/mysql/mysql_intro.asp"
+      },
+      {
+        "type": "reference",
+        "title": "W3Schools: MySQL RDBMS (Relational Database Management System)",
+        "url": "https://www.w3schools.com/mysql/mysql_rdbms.asp"
+      }
+    ]
+  },
+  {
+    "module_id": 4,
+    "chapter": 1,
+    "competency": "Explains Database Attributes and SQL Commands",
+    "is_mastery_gate": true,
+    "zybooks_sections": [
+      {
+        "section": "1.8 Chapter 1 Practice Quiz",
+        "is_core_concept": false
+      }
+    ],
+    "topics": [
+      "Chapter 1 Holistic Review (Score 80%+ on Zybooks 1.8 Practice Quiz)"
+    ],
+    "resources": [
+      {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 1 Review)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      }
+    ]
+  }
+]

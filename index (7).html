@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D426 Data Management Foundations — Adaptive Study Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top Navigation & Dashboard Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-left">
+        <div class="course-badge">WGU D426 • Data Management Foundations</div>
+        <h1 id="studentGreeting">Hi, Student</h1>
+        <p id="dailyQuote" class="daily-quote">"The secret to getting ahead is getting started." — Mark Twain</p>
+      </div>
+
+      <div class="header-right">
+        <div class="metrics-row">
+          <div class="metric-card">
+            <span class="metric-label">Start Date</span>
+            <span id="startDateDisplay" class="metric-value">--</span>
+          </div>
+          <div class="metric-card clickable" id="editTargetDateBtn" title="Click to adjust Target OA Date">
+            <span class="metric-label">Target OA Date ✎</span>
+            <span id="targetDateDisplay" class="metric-value">--</span>
+          </div>
+          <div class="metric-card countdown-card">
+            <span class="metric-label">Days Remaining</span>
+            <span id="daysRemainingDisplay" class="metric-value countdown-number">--</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="viewModeToggleBtn" class="btn btn-outline btn-sm" title="Switch between Weekly Sprint and Full Study Plan">
+            View Full Study Plan
+          </button>
+          <button id="openPaModalBtn" class="btn btn-outline btn-sm">
+            Update PA Scores
+          </button>
+          <button id="hamburgerBtn" class="icon-btn" aria-label="Open Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall Course Progress Bar -->
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-info">
+        <span id="progressText">Overall Course Progress: 0 of 32 Modules Completed (0%)</span>
+        <span id="quickPlanIndicator" class="badge badge-warning hidden">Quick Remediation Sprint Active</span>
+      </div>
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide-out Top-Right Menu Drawer -->
+  <div id="menuBackdrop" class="drawer-backdrop hidden"></div>
+  <aside id="sideMenuDrawer" class="side-drawer hidden" aria-label="Navigation & Settings Menu">
+    <div class="drawer-header">
+      <h2>Study Plan Menu</h2>
+      <button id="closeMenuBtn" class="icon-btn" aria-label="Close Menu">&times;</button>
+    </div>
+    <div class="drawer-body">
+      <button class="menu-item-btn" id="menuFaqBtn">
+        <span class="menu-item-title">Course FAQ & OA Tips</span>
+        <span class="menu-item-desc">Answers to common D426 questions, cohorts, and exam strategy</span>
+      </button>
+      <button class="menu-item-btn" id="menuPaUpdaterBtn">
+        <span class="menu-item-title">Pre-Assessment (PA) Analyzer</span>
+        <span class="menu-item-desc">Input or update your PA Coaching Report to adapt your plan</span>
+      </button>
+      <button class="menu-item-btn" id="menuToggleFullPlanBtn">
+        <span class="menu-item-title" id="menuTogglePlanLabel">Switch to Full Study Plan View</span>
+        <span class="menu-item-desc">Toggle between Weekly Sprint buckets and all 32 modules</span>
+      </button>
+      <button class="menu-item-btn" id="menuRetakeOnboardingBtn">
+        <span class="menu-item-title">Recalibrate Placement & Study Preferences</span>
+        <span class="menu-item-desc">Update your learning style, weekly hours, or target OA date</span>
+      </button>
+      <hr class="drawer-divider" />
+      <div class="drawer-footer-note">
+        <p><strong>Zero-Login Local Storage:</strong> Your progress is saved automatically in this browser.</p>
+        <button id="resetProgressBtn" class="btn-text-danger">Reset All Progress</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Container -->
+  <main class="main-container">
+
+    <!-- Dynamic Alerts: Pacing Recalibration, Fast-Track Day 1, Delayed PA Prompt, Silent Mastery -->
+    <div id="alertsContainer"></div>
+
+    <!-- Sprint Navigation Bar (Shown in Weekly Sprint Mode) -->
+    <section id="sprintNavSection" class="sprint-nav-bar">
+      <button id="prevWeekBtn" class="btn btn-nav" aria-label="Previous Week">
+        &larr; Previous Week
+      </button>
+      <div class="sprint-title-group">
+        <h2 id="sprintTitle">Week 1 Sprint</h2>
+        <span id="sprintSubtitle" class="sprint-subtitle">Loading schedule...</span>
+      </div>
+      <button id="nextWeekBtn" class="btn btn-nav" aria-label="Next Week">
+        Next Week &rarr;
+      </button>
+    </section>
+
+    <!-- Filter Bar (Shown in Full Study Plan Mode) -->
+    <section id="fullPlanFilterBar" class="full-plan-filter hidden">
+      <div class="filter-group">
+        <span class="filter-label">Filter Chapter:</span>
+        <button class="chip active" data-chapter="all">All Chapters</button>
+        <button class="chip" data-chapter="1">Ch 1</button>
+        <button class="chip" data-chapter="2">Ch 2</button>
+        <button class="chip" data-chapter="3">Ch 3</button>
+        <button class="chip" data-chapter="4">Ch 4</button>
+        <button class="chip" data-chapter="5">Ch 5</button>
+      </div>
+      <label class="checkbox-label">
+        <input type="checkbox" id="showOptionalToggle" checked />
+        Show Optional / Skimmed Modules
+      </label>
+    </section>
+
+    <!-- Modules Queue Container -->
+    <section id="modulesContainer" class="modules-queue">
+      <!-- Dynamically populated via app.js -->
+    </section>
+
+  </main>
+
+  <!-- Persistent Floating Support Button (Bottom Right) -->
+  <div class="support-fab-wrapper">
+    <div id="supportPopupMenu" class="support-popup hidden">
+      <div class="support-popup-header">
+        <strong>Need Help with D426?</strong>
+        <span>Choose a support channel below:</span>
+      </div>
+      <a href="mailto:d426@wgu.edu?subject=D426%20Study%20Plan%20Question" class="support-option">
+        <span class="support-icon">✉</span>
+        <div>
+          <strong>Email Course Team Inbox</strong>
+          <small>d426@wgu.edu — Fast response from any available CI</small>
+        </div>
+      </a>
+      <div class="support-option support-option-static">
+        <span class="support-icon">👩‍🏫</span>
+        <div>
+          <strong>Message Your Assigned CI</strong>
+          <small>Check your WGU Course Page to email or book a 1-on-1 appointment with your assigned Course Instructor.</small>
+        </div>
+      </div>
+      <a href="https://westerngovernorsuniversity.sharepoint.com/sites/AcademicCoachingCenter/SitePages/Peer-to-Peer-Coaching.aspx" target="_blank" rel="noopener noreferrer" class="support-option">
+        <span class="support-icon">🤝</span>
+        <div>
+          <strong>Book a 1-on-1 Peer Tutor</strong>
+          <small>Schedule a live session via the WGU Academic Coaching Center</small>
+        </div>
+      </a>
+    </div>
+    <button id="supportFabBtn" class="support-fab" aria-label="Get Support">
+      <span>?</span> Support
+    </button>
+  </div>
+
+  <!-- MODAL 1: Initial 6-Question Placement & Onboarding Gate -->
+  <div id="onboardingModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <span class="course-badge">Welcome to WGU D426</span>
+        <h2>Build Your Personalized Study Plan</h2>
+        <p>Answer 6 quick questions so we can calibrate your weekly pacing and learning resources.</p>
+      </div>
+      <form id="onboardingForm" class="modal-body">
+        <div class="form-group">
+          <label for="studentNameInput"><strong>What is your first name?</strong></label>
+          <input type="text" id="studentNameInput" required placeholder="e.g., Alex" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label><strong>1. How comfortable are you with database concepts?</strong></label>
+          <div class="radio-stack">
+            <label class="radio-card">
+              <input type="radio" name="dbExp" value="0" required />
+              <span>"I do not know anything about databases or database management."</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="dbExp" value="1" />
+              <span>"I know the basics, like what tables and primary keys are."</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="dbExp" value="2" />
+              <span>"I have worked with relational databases before."</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><strong>2. What is your experience level with writing SQL?</strong></label>
+          <div class="radio-stack">
+            <label class="radio-card">
+              <input type="radio" name="sqlExp" value="0" required />
+              <span>"I have never written a query."</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="sqlExp" value="1" />
+              <span>"I can write basic SELECT and JOIN statements."</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="sqlExp" value="2" />
+              <span>"I write heavy SQL statements regularly for work or projects."</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><strong>3. What does your typical study schedule look like?</strong></label>
+          <div class="radio-stack">
+            <label class="radio-card">
+              <input type="radio" name="studyStyle" value="steady" required />
+              <span>"Slow and steady (a little bit every day)"</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="studyStyle" value="accelerating" />
+              <span>"Accelerating (heavy daily studying)"</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="studyStyle" value="weekend" />
+              <span>"Weekend Warrior (heavy cramming on weekends, light on weekdays)"</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><strong>4. Roughly how many hours total do you plan to dedicate to this class each week?</strong></label>
+          <div class="radio-grid">
+            <label class="radio-card">
+              <input type="radio" name="weeklyHours" value="under10" required />
+              <span>Under 10 hours</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="weeklyHours" value="10to15" />
+              <span>10–15 hours</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="weeklyHours" value="15to20" />
+              <span>15–20 hours</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="weeklyHours" value="20plus" />
+              <span>20+ hours</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="targetOaDateInput"><strong>5. When is your ideal date to take the Objective Assessment (OA)?</strong></label>
+          <p class="field-hint">Note: This is not a hard deadline! Having a goal to reach just makes it easier to stay motivated, and you can always adjust this date later based on your progress.</p>
+          <input type="date" id="targetOaDateInput" required class="form-input" />
+          <div id="shortTimelineWarning" class="inline-warning hidden">
+            <strong>Heads up:</strong> Starting from scratch with a short timeline is ambitious! Consider giving yourself at least 21–30 days so you can master Chapters 4 and 5 comfortably—or keep your chosen date if you're ready to sprint.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><strong>6. When you need extra help on a topic, how do you prefer to learn?</strong></label>
+          <div class="radio-stack">
+            <label class="radio-card">
+              <input type="radio" name="learningPref" value="visual" required />
+              <span>"Visual: I prefer video walkthroughs and lectures."</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="learningPref" value="text" />
+              <span>"Text-based: I prefer written summaries and guides."</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="learningPref" value="handson" />
+              <span>"Hands-on: Just give me extra practice labs."</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><strong>Have you already taken the official D426 Pre-Assessment (PA)?</strong></label>
+          <div class="radio-grid">
+            <label class="radio-card">
+              <input type="radio" name="hasTakenPa" value="no" checked />
+              <span>No, not yet</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="hasTakenPa" value="yes" />
+              <span>Yes — I want to input my Coaching Report</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-lg">Generate My Study Plan &rarr;</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Pre-Assessment (PA) Coaching Report Analyzer -->
+  <div id="paAnalyzerModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <span class="course-badge">Adaptive Routing</span>
+        <h2>Pre-Assessment Coaching Report Analyzer</h2>
+        <p>Enter your scores and check off any topics flagged for <strong>"Suggested Study"</strong> on your WGU Coaching Report.</p>
+      </div>
+      <form id="paAnalyzerForm" class="modal-body">
+        <div class="form-group">
+          <label for="paOverallScore"><strong>1. What was your overall assessment score?</strong></label>
+          <select id="paOverallScore" class="form-input" required>
+            <option value="">-- Select Overall Score --</option>
+            <option value="Not Evident">Not Evident</option>
+            <option value="Approaching Competency">Approaching Competency</option>
+            <option value="Competent">Competent</option>
+            <option value="Exemplary">Exemplary</option>
+          </select>
+        </div>
+
+        <div class="pa-competency-block">
+          <div class="pa-comp-header">
+            <strong>Section 1: Explains Database Attributes and SQL Commands (27%)</strong>
+          </div>
+          <div class="form-group">
+            <label for="comp1Score">Section 1 Score:</label>
+            <select id="comp1Score" class="form-input" required>
+              <option value="Approaching Competence">Approaching Competence / Unsatisfactory</option>
+              <option value="Competent">Competent</option>
+              <option value="Exemplary">Exemplary</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <span class="sub-label">Check if flagged for <strong>Suggested Study</strong>:</span>
+            <div class="checkbox-row">
+              <label class="checkbox-pill">
+                <input type="checkbox" name="flag_db_mgmt" id="flagDbMgmt" />
+                Database Management
+              </label>
+              <label class="checkbox-pill">
+                <input type="checkbox" name="flag_intro_db" id="flagIntroDb" />
+                Introduction to Databases
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="pa-competency-block">
+          <div class="pa-comp-header">
+            <strong>Section 2: Determines SQL Queries (30%)</strong>
+          </div>
+          <div class="form-group">
+            <label for="comp2Score">Section 2 Score:</label>
+            <select id="comp2Score" class="form-input" required>
+              <option value="Approaching Competence">Approaching Competence / Unsatisfactory</option>
+              <option value="Competent">Competent</option>
+              <option value="Exemplary">Exemplary</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <span class="sub-label">Check if flagged for <strong>Suggested Study</strong>:</span>
+            <div class="checkbox-row">
+              <label class="checkbox-pill">
+                <input type="checkbox" name="flag_complex_queries" id="flagComplexQueries" />
+                Complex Queries
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="pa-competency-block">
+          <div class="pa-comp-header">
+            <strong>Section 3: Defines Primary Keys (43%)</strong>
+          </div>
+          <div class="form-group">
+            <label for="comp3Score">Section 3 Score:</label>
+            <select id="comp3Score" class="form-input" required>
+              <option value="Approaching Competence">Approaching Competence / Unsatisfactory</option>
+              <option value="Competent">Competent</option>
+              <option value="Exemplary">Exemplary</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <span class="sub-label">Check if flagged for <strong>Suggested Study</strong>:</span>
+            <div class="checkbox-row">
+              <label class="checkbox-pill">
+                <input type="checkbox" name="flag_db_design" id="flagDbDesign" />
+                Database Design
+              </label>
+              <label class="checkbox-pill">
+                <input type="checkbox" name="flag_normalization" id="flagNormalization" />
+                Normalization
+              </label>
+              <label class="checkbox-pill">
+                <input type="checkbox" name="flag_indexes" id="flagIndexes" />
+                Indexes
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="cancelPaModalBtn" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Apply Coaching Report to My Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: FAQ & Exam Strategy Modal -->
+  <div id="faqModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-card modal-lg">
+      <div class="modal-header modal-header-flex">
+        <div>
+          <span class="course-badge">D426 Knowledge Base</span>
+          <h2>Frequently Asked Questions & OA Strategy</h2>
+        </div>
+        <button id="closeFaqModalBtn" class="icon-btn" aria-label="Close FAQ">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="faqCategoryTabs" class="faq-tabs"></div>
+        <div id="faqListContainer" class="faq-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Quick Date Recalibration Modal -->
+  <div id="dateModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Adjust Target OA Date</h2>
+        <p>Updating your Target OA Date will automatically recalculate your weekly sprints while preserving all completed modules.</p>
+      </div>
+      <form id="dateModalForm" class="modal-body">
+        <div class="form-group">
+          <label for="newTargetDateInput"><strong>New Target OA Date:</strong></label>
+          <input type="date" id="newTargetDateInput" required class="form-input" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelDateModalBtn" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Schedule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
