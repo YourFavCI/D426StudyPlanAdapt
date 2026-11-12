@@ -28,6 +28,11 @@
         "type": "video",
         "title": "Watch: Investigating Indexes & Table Structures (Sections 5.1 & 5.2)",
         "url": "https://westerngovernorsuniversity.sharepoint.com/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/../../../../_layouts/15/stream.aspx?id=%2Fsites%2FDataScienceTeam%2FShared%20Documents%2FUndergraduate%20Team%2FD426%2FStudent%20Facing%20Resources%2FInvestigating%20Indexes%20Cohort%2Emp4&startedResponseCatch=true&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E46bedbe1%2D6283%2D49f0%2D8839%2Dcb68bbaf5fbc"
+      },
+      {
+        "type": "article",
+        "title": "Article: Logical vs. Physical Database Design",
+        "url": "https://www.logicsoftware.co.uk/2023/10/09/the-importance-of-proper-database-design-logical-vs-physical-database-design/"
       }
     ]
   },
@@ -113,17 +118,18 @@
     ],
     "topics": [
       "Milestone Check: Test your mastery of Competency 3 (Defines Primary Keys: Design, Normalization & Indexes)",
-      "Complete both Competency 3 Checkpoint Quizzes below"
+      "Multiple attempts are allowed on both Competency 3 Checkpoint Quizzes below",
+      "Have a question on a quiz item? Reach out to the instruction team at d426@wgu.edu!"
     ],
     "resources": [
       {
         "type": "quiz",
-        "title": "Competency 3 Milestone Quiz 1",
+        "title": "Competency 3 Milestone Quiz 1 (Multiple Attempts Allowed)",
         "url": "https://forms.cloud.microsoft/r/vpYirM3uG8"
       },
       {
         "type": "quiz",
-        "title": "Competency 3 Milestone Quiz 2",
+        "title": "Competency 3 Milestone Quiz 2 (Multiple Attempts Allowed)",
         "url": "https://forms.cloud.microsoft/r/1DZgRxhWpC"
       }
     ]
@@ -141,7 +147,8 @@
     ],
     "topics": [
       "Comprehensive Course Review across all 3 Competencies",
-      "Complete the 75, 90, and 100-Question Holistic Practice Challenges to verify OA readiness"
+      "Complete the 75, 90, and 100-Question Holistic Practice Challenges to verify OA readiness",
+      "Have questions on any challenge items? Email the instruction team at d426@wgu.edu!"
     ],
     "resources": [
       {
