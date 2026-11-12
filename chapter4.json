@@ -31,6 +31,11 @@
         "title": "Interactive Study Doc: Glossary for Database Design",
         "url": "https://westerngovernorsuniversity-my.sharepoint.com/:w:/g/personal/lythia_amoakon_wgu_edu/EbXZX5SrhIZJtW1utlHS0GcBjaKJtovWruba9HNDAh2cxQ?e=TcInuY",
         "instructions": "Try to fill in all definitions and examples without looking them up first. Then use Zybooks or W3Schools to complete/correct your entries. Ask yourself: 'Can I write this from memory?' and 'Can I explain this out loud to someone else?'"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Entities, Attributes, Relationships & Cardinality",
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -60,6 +65,11 @@
     "resources": [
       {
         "type": "video",
+        "title": "Watch: Binary Relationships and Cardinalities — Dr. Soper (Topic 04, Part 07)",
+        "url": "https://www.youtube.com/watch?v=Kzp5wkP9Lo8"
+      },
+      {
+        "type": "video",
         "title": "Watch: Unary Relationships Explained — Dr. Soper (6 min)",
         "url": "https://www.youtube.com/watch?v=On4ITNnhSKc"
       },
@@ -67,6 +77,11 @@
         "type": "video",
         "title": "Watch: Entity Relationships Cohort Recording (15 min)",
         "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bae03e4f-4a5f-44ca-ae59-ca2bf66ce2f1"
+      },
+      {
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Entities, Attributes, Relationships & Cardinality",
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -87,9 +102,19 @@
     ],
     "resources": [
       {
+        "type": "video",
+        "title": "Watch: Conceptual Crow's Foot Relationship Symbols — Dr. Soper (Topic 04, Part 06)",
+        "url": "https://www.youtube.com/watch?v=1DAnVydNmxc"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Crow's Foot Symbols with Cardinalities — Dr. Soper (Topic 04, Part 08)",
+        "url": "https://www.youtube.com/watch?v=Oxda-LTLTOc"
+      },
+      {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: Entities, Attributes, Relationships & Cardinality",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -158,25 +183,51 @@
       }
     ],
     "topics": [
-      "Implementing entities (selecting primary keys, strong vs. weak, supertypes/subtypes)",
-      "Mapping binary relationships (1:1, 1:M, M:M) using Primary and Foreign Keys",
-      "Handling plural attributes and required/unique cardinality constraints"
+      "Core Step 1 — Derive Relational Schemas: Convert conceptual ER diagrams into concrete table structures",
+      "Core Step 2 — Normalize the Data: Break down wide or repetitive tables into smaller, related tables to keep data consistent",
+      "Core Step 3 — Map Relationships: Resolve 1:1, 1:M, and complex M:M relationships by placing Foreign Keys or introducing junction/bridge tables",
+      "Implementing strong vs. weak entities, supertypes/subtypes, and plural attributes into tables"
     ],
     "resources": [
       {
-        "type": "reference",
-        "title": "W3Schools: MySQL PRIMARY KEY Constraint",
-        "url": "https://www.w3schools.com/mysql/mysql_primarykey.asp"
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Entities, Attributes, Relationships & Cardinality",
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       },
       {
-        "type": "reference",
-        "title": "W3Schools: MySQL FOREIGN KEY Constraint",
-        "url": "https://www.w3schools.com/mysql/mysql_foreignkey.asp"
+        "type": "cohort",
+        "title": "Self-Paced Mini Cohort: Keys and Normalization Part 1",
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       },
       {
-        "type": "reference",
-        "title": "W3Schools: MySQL UNIQUE & NOT NULL Constraints",
-        "url": "https://www.w3schools.com/mysql/mysql_constraints.asp"
+        "type": "video",
+        "title": "Watch: Implementing Entities into Tables (Lesson #5 Segment)",
+        "url": "https://youtu.be/B_QU9OGwtbI?t=207"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Implementing Relationships into Tables (Lesson #5 Segment)",
+        "url": "https://youtu.be/B_QU9OGwtbI?t=1543"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Modeling One-to-One (1:1) Binary Relationships — Dr. Soper (Topic 05, Part 05)",
+        "url": "https://youtu.be/WNCzKgmj8zA"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Modeling One-to-Many (1:M) Binary Relationships — Dr. Soper (Topic 05, Part 06)",
+        "url": "https://youtu.be/oeRlzvmUB8Q"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Modeling Many-to-Many (M:M) Relationships — Dr. Soper (Topic 05, Part 07)",
+        "url": "https://youtu.be/6XSE3PWo29s"
+      },
+      {
+        "type": "article",
+        "title": "Article: Logical vs. Physical Database Design",
+        "url": "https://www.logicsoftware.co.uk/2023/10/09/the-importance-of-proper-database-design-logical-vs-physical-database-design/"
       }
     ]
   },
@@ -196,6 +247,21 @@
     ],
     "resources": [
       {
+        "type": "video",
+        "title": "Watch: Normalization & Normal Forms — Dr. Soper (Topic 02, Part 10)",
+        "url": "https://www.youtube.com/watch?v=oC9ezd5ydaI"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Normalization Overview (Lesson #5 Segment)",
+        "url": "https://youtu.be/B_QU9OGwtbI?t=739"
+      },
+      {
+        "type": "video",
+        "title": "Watch: Normal Forms 1NF, 2NF & 3NF (Lesson #5 Segment)",
+        "url": "https://youtu.be/B_QU9OGwtbI?t=849"
+      },
+      {
         "type": "interactive",
         "title": "Interactive Tutorial: First Normal Form (1NF) (20 min)",
         "url": "https://wisconlineoer.blob.core.windows.net/learning-object/itdb314/3OTCBI9Y/story_html5.html?lms=1"
@@ -213,7 +279,7 @@
       {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: Keys and Normalization Part 1",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       },
       {
         "type": "quiz",
@@ -256,12 +322,12 @@
       {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: Keys and Normalization Part 2",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       },
       {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: Normalization Hands-On Activity",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -279,6 +345,11 @@
       "Chapter 4 Holistic Review"
     ],
     "resources": [
+      {
+        "type": "video",
+        "title": "Watch: Complete Database Design Lecture (Lesson #5 of 8)",
+        "url": "https://www.youtube.com/watch?v=B_QU9OGwtbI"
+      },
       {
         "type": "quiz",
         "title": "Practice Quiz: Database Design Fundamentals (Keys & Normalization)",
