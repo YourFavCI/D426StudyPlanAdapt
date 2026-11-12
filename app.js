@@ -14,6 +14,14 @@ const CHAPTER_WEIGHTS = {
   5: 1.4
 };
 
+// Weekly hours capacity mapping
+const WEEKLY_HOURS_MAP = {
+  under10: { hours: 8, capacityFactor: 0.75, label: 'Under 10 hrs/wk' },
+  '10to15': { hours: 12.5, capacityFactor: 1.0, label: '10–15 hrs/wk' },
+  '15to20': { hours: 17.5, capacityFactor: 1.35, label: '15–20 hrs/wk' },
+  '20plus': { hours: 22, capacityFactor: 1.75, label: '20+ hrs/wk' }
+};
+
 let allModules = [];
 let faqItems = [];
 let quotesList = [];
@@ -26,19 +34,21 @@ let appState = {
   targetOaDate: '',
   dbExp: 0,
   sqlExp: 0,
-  studyStyle: 'steady',
-  weeklyHours: '10to15',
+  studyStyle: 'steady',   // 'steady', 'accelerating', 'weekend'
+  weeklyHours: '10to15',  // 'under10', '10to15', '15to20', '20plus'
   learningPref: 'visual', // 'visual', 'text', 'handson'
   track: 'foundations',   // 'foundations', 'standard', 'fasttrack' (internal only)
   hasTakenPa: false,
   paReport: null,         // Stores Coaching Report scores & flags
   quickPlanActive: false, // Activated on subsequent PA retakes with flags
   completedModules: {},   // { [module_id]: { completedAt, confidence, quizScore } }
+  expandedCards: {},      // { [module_id]: boolean } — preserves open/closed state seamlessly
   expandedResources: {},  // { [module_id]: boolean }
   showAllResources: {},   // { [module_id]: boolean }
   currentWeekIndex: 0,
   viewMode: 'sprint',     // 'sprint' or 'full'
   chapterFilter: 'all',
+  confidenceFilter: 'all', // 'all', 'todo', 'easy', 'shaky', 'hard'
   showOptional: true,
   dismissedFastTrackDay1: false,
   dismissedPacingAlertDate: null
@@ -57,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!appState.onboarded) {
     openOnboardingModal();
   } else {
+    ensureNextActiveModuleExpanded();
     initializeDashboard();
   }
 });
@@ -67,6 +78,8 @@ function loadStateFromStorage() {
     if (raw) {
       const parsed = JSON.parse(raw);
       appState = { ...appState, ...parsed };
+      if (!appState.expandedCards) appState.expandedCards = {};
+      if (!appState.confidenceFilter) appState.confidenceFilter = 'all';
     }
   } catch (err) {
     console.error('Error reading localStorage:', err);
@@ -112,14 +125,13 @@ async function loadAllJsonContent() {
 }
 
 /* ==========================================================================
-   Onboarding & Invisible Track Calculation
+   Onboarding & Invisible Track Calculation (With DB=0 Beginner Guardrail)
    ========================================================================== */
 
 function openOnboardingModal() {
   const modal = document.getElementById('onboardingModal');
   modal.classList.remove('hidden');
 
-  // Set default target date to 28 days from today if not set
   const dateInput = document.getElementById('targetOaDateInput');
   const today = new Date();
   const minDateStr = formatDateISO(today);
@@ -138,7 +150,14 @@ function openOnboardingModal() {
   }
 }
 
+/**
+ * Someone who says they do not know anything about databases (dbExp === 0)
+ * cannot write basic/heavy SQL and must be treated strictly as a beginner.
+ */
 function calculateInvisibleTrack(dbExp, sqlExp) {
+  if (dbExp === 0) {
+    return 'foundations';
+  }
   if (dbExp === 2 || sqlExp === 2) {
     return 'fasttrack';
   }
@@ -148,18 +167,41 @@ function calculateInvisibleTrack(dbExp, sqlExp) {
   return 'standard';
 }
 
-function checkShortTimelineWarning() {
+function handleOnboardingInputChanges() {
   const dbExpEl = document.querySelector('input[name="dbExp"]:checked');
+  const sqlOpt0 = document.querySelector('input[name="sqlExp"][value="0"]');
+  const sqlOpt1 = document.querySelector('input[name="sqlExp"][value="1"]');
+  const sqlOpt2 = document.querySelector('input[name="sqlExp"][value="2"]');
+  const sqlOpt1Card = document.getElementById('sqlOpt1Card');
+  const sqlOpt2Card = document.getElementById('sqlOpt2Card');
+  const lockNote = document.getElementById('sqlBeginnerLockNote');
+
+  if (dbExpEl && Number(dbExpEl.value) === 0) {
+    sqlOpt0.checked = true;
+    sqlOpt1.disabled = true;
+    sqlOpt2.disabled = true;
+    sqlOpt1Card.classList.add('disabled-card');
+    sqlOpt2Card.classList.add('disabled-card');
+    lockNote.classList.remove('hidden');
+  } else {
+    sqlOpt1.disabled = false;
+    sqlOpt2.disabled = false;
+    sqlOpt1Card.classList.remove('disabled-card');
+    sqlOpt2Card.classList.remove('disabled-card');
+    lockNote.classList.add('hidden');
+  }
+
+  // Check short timeline warning for beginners
   const sqlExpEl = document.querySelector('input[name="sqlExp"]:checked');
   const dateInput = document.getElementById('targetOaDateInput');
   const warningEl = document.getElementById('shortTimelineWarning');
 
-  if (!dbExpEl || !sqlExpEl || !dateInput.value) return;
+  if (!dbExpEl || !dateInput.value) return;
 
-  const isBeginner = Number(dbExpEl.value) === 0 && Number(sqlExpEl.value) === 0;
+  const isBeginner = Number(dbExpEl.value) === 0 || (Number(dbExpEl.value) === 0 && sqlExpEl && Number(sqlExpEl.value) === 0);
   const daysUntil = getDaysBetween(new Date(), new Date(dateInput.value + 'T00:00:00'));
 
-  if (isBeginner && daysUntil < 18) {
+  if (isBeginner && daysUntil < 21) {
     warningEl.classList.remove('hidden');
   } else {
     warningEl.classList.add('hidden');
@@ -170,10 +212,6 @@ function checkShortTimelineWarning() {
    Adaptive Module Status & PA Coaching Report Logic
    ========================================================================== */
 
-/**
- * Determines module status ('required', 'optional', 'critical') based on
- * PA Coaching Report inputs and current track.
- */
 function getModuleAdaptiveState(mod) {
   let status = 'required'; // 'required', 'optional', 'critical'
   const pa = appState.paReport;
@@ -244,17 +282,16 @@ function getModuleAdaptiveState(mod) {
 }
 
 /* ==========================================================================
-   Weekly Sprints Distribution (Weighted by Length & Difficulty)
+   Weekly Sprints & Suggested Daily Study Buckets (By Schedule & Weekly Hours)
    ========================================================================== */
 
 function buildWeeklySprints() {
   const start = appState.startDate ? new Date(appState.startDate + 'T00:00:00') : new Date();
   const target = appState.targetOaDate ? new Date(appState.targetOaDate + 'T00:00:00') : new Date();
 
-  const totalDays = Math.max(1, getDaysBetween(start, target));
-  const numWeeks = Math.max(1, Math.ceil(totalDays / 7));
+  const totalCalendarDays = Math.max(1, getDaysBetween(start, target));
+  const calendarWeeks = Math.max(1, Math.ceil(totalCalendarDays / 7));
 
-  // Filter modules if Quick Plan is active (only Critical or Milestone modules)
   let queue = allModules.map(mod => {
     const adaptive = getModuleAdaptiveState(mod);
     return { ...mod, adaptiveStatus: adaptive.status, weight: adaptive.weight };
@@ -267,8 +304,17 @@ function buildWeeklySprints() {
     }
   }
 
-  // Active required/critical modules get distributed across the weeks by weight
+  // Adjust target weekly capacity based on student's weeklyHours selection
+  const hoursConfig = WEEKLY_HOURS_MAP[appState.weeklyHours] || WEEKLY_HOURS_MAP['10to15'];
   const totalWeight = queue.reduce((acc, m) => acc + m.weight, 0);
+
+  // Baseline weight per week for 10-15 hours is ~9.5 weight units; scaled by capacityFactor
+  const capacityWeightPerWeek = 9.5 * hoursConfig.capacityFactor;
+  const minWeeksForGoal = Math.max(1, Math.ceil(totalWeight / capacityWeightPerWeek));
+
+  // Use the tighter of their target date weeks or their weekly hours capacity weeks
+  // so someone dedicating 20+ hours gets larger weekly/daily buckets than someone doing <10 hours
+  const numWeeks = Math.max(1, Math.min(calendarWeeks, minWeeksForGoal));
   const weightPerWeek = totalWeight / numWeeks;
 
   const weeks = [];
@@ -301,14 +347,126 @@ function buildWeeklySprints() {
     weekStart.setDate(start.getDate() + idx * 7);
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekStart.getDate() + 6);
-    if (weekEnd > target) weekEnd.setTime(target.getTime());
+    if (weekEnd > target && idx === weeks.length - 1) {
+      weekEnd.setTime(target.getTime());
+    }
+
+    const dailyBuckets = distributeModulesIntoDailyBuckets(bucket, weekStart);
 
     return {
       weekNumber: idx + 1,
       dateRangeLabel: `${formatDateShort(weekStart)} – ${formatDateShort(weekEnd)}`,
-      modules: bucket
+      modules: bucket,
+      dailyBuckets
     };
   });
+}
+
+/**
+ * Distributes a week's modules into suggested daily study buckets based on:
+ * - studyStyle: 'steady', 'accelerating', or 'weekend'
+ * - weeklyHours: 'under10', '10to15', '15to20', '20plus'
+ */
+function distributeModulesIntoDailyBuckets(weekModules, weekStartDate) {
+  if (!weekModules || weekModules.length === 0) return [];
+
+  const style = appState.studyStyle || 'steady';
+  const hoursCfg = WEEKLY_HOURS_MAP[appState.weeklyHours] || WEEKLY_HOURS_MAP['10to15'];
+
+  // Create 7 calendar days for the sprint week
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(weekStartDate);
+    d.setDate(weekStartDate.getDate() + i);
+    const dayOfWeek = d.getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+
+    let dayShare = 1.0;
+    let focusNote = 'Daily Study Session';
+
+    if (style === 'weekend') {
+      // Weekend Warrior: Heavy on Sat/Sun, medium mid-week boost on Wednesday, light/rest other days
+      if (dayOfWeek === 6 || dayOfWeek === 0) {
+        dayShare = 3.2;
+        focusNote = 'Weekend Deep-Dive Block';
+      } else if (dayOfWeek === 3) {
+        dayShare = 1.8;
+        focusNote = 'Mid-Week Power Session';
+      } else if (dayOfWeek === 1 || dayOfWeek === 4) {
+        dayShare = 0.6;
+        focusNote = 'Light Weekday Check-In';
+      } else {
+        dayShare = 0; // Rest / buffer day
+      }
+    } else if (style === 'accelerating') {
+      // Accelerating: Heavy daily studying Mon-Fri, lighter weekend review
+      if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+        dayShare = 2.0;
+        focusNote = 'Accelerated Daily Block';
+      } else if (dayOfWeek === 6) {
+        dayShare = 1.2;
+        focusNote = 'Weekend Consolidation';
+      } else {
+        dayShare = 0;
+      }
+    } else {
+      // Slow and steady: Balanced across Mon-Sat
+      if (dayOfWeek >= 1 && dayOfWeek <= 6) {
+        dayShare = 1.0;
+        focusNote = 'Steady Daily Pace';
+      } else {
+        dayShare = 0;
+      }
+    }
+
+    days.push({
+      dateObj: d,
+      dayOfWeek,
+      dayLabel: d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }),
+      dayShare,
+      focusNote,
+      modules: [],
+      currentWeight: 0
+    });
+  }
+
+  let activeDays = days.filter(d => d.dayShare > 0);
+  if (activeDays.length === 0) activeDays = [days[0]];
+
+  const totalShare = activeDays.reduce((s, d) => s + d.dayShare, 0);
+  const totalWeekWeight = weekModules.reduce((s, m) => s + (m.weight || 1), 0);
+
+  let dayIdx = 0;
+  weekModules.forEach((mod) => {
+    const modWeight = mod.weight || 1;
+    let targetDay = activeDays[dayIdx];
+    const targetDayMaxWeight = totalWeekWeight * (targetDay.dayShare / totalShare);
+
+    if (
+      targetDay.modules.length > 0 &&
+      targetDay.currentWeight >= targetDayMaxWeight &&
+      dayIdx < activeDays.length - 1
+    ) {
+      dayIdx++;
+      targetDay = activeDays[dayIdx];
+    }
+
+    targetDay.modules.push(mod);
+    targetDay.currentWeight += modWeight;
+  });
+
+  // Return only days that have assigned modules, along with estimated study hours
+  return activeDays
+    .filter(d => d.modules.length > 0)
+    .map(d => {
+      const estHours = Math.max(
+        0.5,
+        Math.round(((d.currentWeight / Math.max(1, totalWeekWeight)) * hoursCfg.hours) * 2) / 2
+      );
+      return {
+        ...d,
+        estHoursLabel: `~${estHours} hr${estHours === 1 ? '' : 's'} (${hoursCfg.label})`
+      };
+    });
 }
 
 /* ==========================================================================
@@ -328,7 +486,6 @@ function getSortedAndCuratedResources(mod) {
     return false;
   };
 
-  // Sort so preferred style is prioritized, while keeping a balanced mix
   const preferred = resources.filter(matchesPref);
   const others = resources.filter(r => !matchesPref(r));
 
@@ -338,7 +495,6 @@ function getSortedAndCuratedResources(mod) {
     return { visible: curated, total: resources.length, hasMore: resources.length > 4 };
   }
 
-  // Pick up to 2 preferred + 2 other styles so student gets variety without overload
   const topPref = preferred.slice(0, 2);
   const topOthers = others.slice(0, 4 - topPref.length);
   curated = [...topPref, ...topOthers];
@@ -356,8 +512,22 @@ function getSortedAndCuratedResources(mod) {
 }
 
 /* ==========================================================================
-   Dashboard Rendering
+   Dashboard Rendering & Seamless Card State Management
    ========================================================================== */
+
+function getNextActiveModuleId() {
+  const nextMod = allModules.find(
+    m => !appState.completedModules[m.module_id] && getModuleAdaptiveState(m).status !== 'optional'
+  );
+  return nextMod ? nextMod.module_id : null;
+}
+
+function ensureNextActiveModuleExpanded() {
+  const nextId = getNextActiveModuleId();
+  if (nextId && appState.expandedCards[nextId] === undefined) {
+    appState.expandedCards[nextId] = true;
+  }
+}
 
 function initializeDashboard() {
   renderHeaderMetrics();
@@ -391,7 +561,6 @@ function renderHeaderMetrics() {
   const daysDisplay = document.getElementById('daysRemainingDisplay');
   daysDisplay.textContent = daysRem >= 0 ? `${daysRem} Days` : 'Past Due';
 
-  // Calculate Overall Progress (Required/Critical modules)
   const activeQueue = allModules.filter(m => getModuleAdaptiveState(m).status !== 'optional');
   const completedCount = activeQueue.filter(m => appState.completedModules[m.module_id]).length;
   const totalCount = activeQueue.length || 1;
@@ -413,7 +582,6 @@ function renderDynamicAlerts() {
   const container = document.getElementById('alertsContainer');
   container.innerHTML = '';
 
-  // 1. Silent Mastery Completion Check
   const requiredMods = allModules.filter(m => getModuleAdaptiveState(m).status !== 'optional');
   const allRequiredDone = requiredMods.length > 0 && requiredMods.every(m => appState.completedModules[m.module_id]);
   const allPaCompetent =
@@ -443,7 +611,6 @@ function renderDynamicAlerts() {
     container.appendChild(banner);
   }
 
-  // 2. Fast-Track Day 1 Custom Module ("Take the Pre-Assessment")
   if (appState.track === 'fasttrack' && !appState.hasTakenPa && !appState.dismissedFastTrackDay1) {
     const ftBanner = document.createElement('div');
     ftBanner.className = 'alert-banner';
@@ -466,7 +633,6 @@ function renderDynamicAlerts() {
     });
   }
 
-  // 3. Delayed Pre-Assessment Checkpoint (Appears after Module 19 / End of Chapter 3 if PA not taken)
   const ch3Completed = appState.completedModules[18] || appState.completedModules[19];
   if (ch3Completed && !appState.hasTakenPa) {
     const paCheckpoint = document.createElement('div');
@@ -484,7 +650,6 @@ function renderDynamicAlerts() {
     paCheckpoint.querySelector('#delayedPaBtn').addEventListener('click', openPaModal);
   }
 
-  // 4. Pacing Recalibration Trigger (Percentage of timeline elapsed vs. completion lag)
   if (appState.startDate && appState.targetOaDate && !allRequiredDone) {
     const start = new Date(appState.startDate + 'T00:00:00');
     const target = new Date(appState.targetOaDate + 'T00:00:00');
@@ -541,7 +706,6 @@ function renderDynamicAlerts() {
     }
   }
 
-  // 5. Quick Plan Banner (when active after PA retake)
   if (appState.quickPlanActive) {
     const qpBanner = document.createElement('div');
     qpBanner.className = 'alert-banner alert-warning';
@@ -568,19 +732,22 @@ function renderDynamicAlerts() {
    ========================================================================== */
 
 function renderMainView() {
-  const sprintNav = document.getElementById('sprintNavSection');
+  const sprintNavTop = document.getElementById('sprintNavSection');
+  const sprintNavBottom = document.getElementById('sprintNavBottomSection');
   const fullFilterBar = document.getElementById('fullPlanFilterBar');
   const viewModeBtn = document.getElementById('viewModeToggleBtn');
   const menuPlanLabel = document.getElementById('menuTogglePlanLabel');
 
   if (appState.viewMode === 'sprint') {
-    sprintNav.classList.remove('hidden');
+    sprintNavTop.classList.remove('hidden');
+    sprintNavBottom.classList.remove('hidden');
     fullFilterBar.classList.add('hidden');
     viewModeBtn.textContent = 'View Full Study Plan';
     menuPlanLabel.textContent = 'Switch to Full Study Plan View';
     renderSprintQueue();
   } else {
-    sprintNav.classList.add('hidden');
+    sprintNavTop.classList.add('hidden');
+    sprintNavBottom.classList.add('hidden');
     fullFilterBar.classList.remove('hidden');
     viewModeBtn.textContent = 'View Weekly Sprints';
     menuPlanLabel.textContent = 'Switch to Weekly Sprint View';
@@ -595,14 +762,47 @@ function renderSprintQueue() {
   }
 
   const currentWeek = weeks[appState.currentWeekIndex];
-  document.getElementById('sprintTitle').textContent = `Week ${currentWeek.weekNumber} of ${weeks.length} Sprint`;
-  document.getElementById('sprintSubtitle').textContent =
-    `${currentWeek.dateRangeLabel} • ${currentWeek.modules.length} Modules in Queue`;
+  const titleText = `Week ${currentWeek.weekNumber} of ${weeks.length} Sprint`;
+  const subText = `${currentWeek.dateRangeLabel} • ${currentWeek.modules.length} Modules Scheduled`;
 
-  document.getElementById('prevWeekBtn').disabled = appState.currentWeekIndex === 0;
-  document.getElementById('nextWeekBtn').disabled = appState.currentWeekIndex >= weeks.length - 1;
+  document.getElementById('sprintTitle').textContent = titleText;
+  document.getElementById('sprintSubtitle').textContent = subText;
+  document.getElementById('sprintBottomLabel').textContent = `${titleText} (${currentWeek.dateRangeLabel})`;
 
-  renderModuleCards(currentWeek.modules);
+  const isFirst = appState.currentWeekIndex === 0;
+  const isLast = appState.currentWeekIndex >= weeks.length - 1;
+
+  document.getElementById('prevWeekBtn').disabled = isFirst;
+  document.getElementById('nextWeekBtn').disabled = isLast;
+  document.getElementById('prevWeekBottomBtn').disabled = isFirst;
+  document.getElementById('nextWeekBottomBtn').disabled = isLast;
+
+  const container = document.getElementById('modulesContainer');
+  container.innerHTML = '';
+
+  const nextActiveId = getNextActiveModuleId();
+
+  currentWeek.dailyBuckets.forEach(dayBucket => {
+    const daySection = document.createElement('div');
+    daySection.className = 'daily-bucket-group';
+
+    daySection.innerHTML = `
+      <div class="daily-bucket-header">
+        <span class="daily-bucket-day">📅 ${escapeHtml(dayBucket.dayLabel)} — ${escapeHtml(dayBucket.focusNote)}</span>
+        <span class="daily-bucket-meta">Suggested Load: ${escapeHtml(dayBucket.estHoursLabel)}</span>
+      </div>
+      <div class="daily-bucket-cards"></div>
+    `;
+
+    const cardsWrapper = daySection.querySelector('.daily-bucket-cards');
+    dayBucket.modules.forEach(mod => {
+      cardsWrapper.appendChild(createModuleCardElement(mod, nextActiveId));
+    });
+
+    container.appendChild(daySection);
+  });
+
+  attachModuleCardListeners();
 }
 
 function renderFullPlanQueue() {
@@ -618,269 +818,358 @@ function renderFullPlanQueue() {
     list = list.filter(m => m.adaptiveStatus !== 'optional');
   }
 
-  renderModuleCards(list);
-}
+  // Filter by Confidence / Completion status
+  if (appState.confidenceFilter !== 'all') {
+    list = list.filter(m => {
+      const comp = appState.completedModules[m.module_id];
+      if (appState.confidenceFilter === 'todo') {
+        return !comp;
+      }
+      return comp && comp.confidence === appState.confidenceFilter;
+    });
+  }
 
-function renderModuleCards(modulesList) {
   const container = document.getElementById('modulesContainer');
   container.innerHTML = '';
 
-  // Find the immediate next uncompleted non-optional module across the entire course
-  const nextActiveModule = allModules.find(
-    m => !appState.completedModules[m.module_id] && getModuleAdaptiveState(m).status !== 'optional'
-  );
-  const nextActiveId = nextActiveModule ? nextActiveModule.module_id : null;
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="content-box" style="text-align:center; padding: 28px;">
+        <strong>No modules match your current filter selection.</strong>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Try selecting "All Statuses" or "All Chapters" above.</p>
+      </div>
+    `;
+    return;
+  }
 
-  modulesList.forEach(mod => {
-    const isCompleted = Boolean(appState.completedModules[mod.module_id]);
-    const compData = appState.completedModules[mod.module_id] || {};
-    const isNextActive = mod.module_id === nextActiveId;
-    const adaptiveStatus = mod.adaptiveStatus || getModuleAdaptiveState(mod).status;
+  const nextActiveId = getNextActiveModuleId();
+  list.forEach(mod => {
+    container.appendChild(createModuleCardElement(mod, nextActiveId));
+  });
 
-    const card = document.createElement('article');
-    card.className = 'module-card';
-    if (isNextActive) card.classList.add('active-module', 'expanded');
-    if (isCompleted) card.classList.add('completed-module');
-    if (adaptiveStatus === 'optional') card.classList.add('optional-module');
+  attachModuleCardListeners();
+}
 
-    const sectionTitle = mod.zybooks_sections.map(s => s.section).join(' & ');
+function createModuleCardElement(mod, nextActiveId) {
+  const isCompleted = Boolean(appState.completedModules[mod.module_id]);
+  const compData = appState.completedModules[mod.module_id] || {};
+  const isNextActive = mod.module_id === nextActiveId;
+  const adaptiveStatus = mod.adaptiveStatus || getModuleAdaptiveState(mod).status;
 
-    // Status Badges
-    let badgesHtml = '';
-    if (mod.is_milestone) {
-      badgesHtml += `<span class="badge badge-milestone">Competency Milestone</span>`;
+  // Determine whether card is expanded: explicit user state takes priority; otherwise expand active module
+  const isExpanded =
+    appState.expandedCards[mod.module_id] !== undefined
+      ? Boolean(appState.expandedCards[mod.module_id])
+      : isNextActive;
+
+  const card = document.createElement('article');
+  card.className = 'module-card';
+  card.id = `moduleCard_${mod.module_id}`;
+
+  if (isNextActive) card.classList.add('active-module');
+  if (isExpanded) card.classList.add('expanded');
+  if (adaptiveStatus === 'optional') card.classList.add('optional-module');
+
+  // Apply confidence-matched color class when completed
+  if (isCompleted) {
+    const conf = compData.confidence || 'easy';
+    card.classList.add(`completed-${conf}`);
+  }
+
+  const sectionTitle = mod.zybooks_sections.map(s => s.section).join(' & ');
+
+  // Status Badges (Matched to Confidence Color)
+  let badgesHtml = '';
+  if (mod.is_milestone) {
+    badgesHtml += `<span class="badge badge-milestone">Competency Milestone</span>`;
+  }
+  if (adaptiveStatus === 'critical') {
+    badgesHtml += `<span class="badge badge-critical">Deep Dive • PA Flagged</span>`;
+  } else if (adaptiveStatus === 'optional') {
+    badgesHtml += `<span class="badge badge-optional">Optional Review (PA Competent)</span>`;
+  }
+
+  if (isCompleted) {
+    const conf = compData.confidence || 'easy';
+    if (conf === 'easy') {
+      badgesHtml += `<span class="badge badge-completed-easy">✓ Completed • Felt Easy</span>`;
+    } else if (conf === 'shaky') {
+      badgesHtml += `<span class="badge badge-completed-shaky">✓ Completed • A Little Shaky</span>`;
+    } else if (conf === 'hard') {
+      badgesHtml += `<span class="badge badge-completed-hard">✓ Completed • Hard</span>`;
     }
-    if (adaptiveStatus === 'critical') {
-      badgesHtml += `<span class="badge badge-critical">Deep Dive • PA Flagged</span>`;
-    } else if (adaptiveStatus === 'optional') {
-      badgesHtml += `<span class="badge badge-optional">Optional Review (PA Competent)</span>`;
-    }
-    if (isCompleted) {
-      badgesHtml += `<span class="badge badge-completed">✓ Completed</span>`;
-    }
+  }
 
-    // Chapter 4 UI Intervention Banner (Module 20)
-    const ch4BannerHtml = mod.has_competency_banner
-      ? `
-      <div class="competency-explainer-banner">
-        <h4>💡 WGU Competency Name Decoder (How Chapters 4 & 5 Map to Your Exam)</h4>
-        <div class="competency-explainer-grid">
-          <div class="comp-phase-box">
-            <strong>Database Design</strong><br/>
-            = <em>Conceptual Design Phase</em> (Entities, Relationships, Attributes, Cardinality)
-          </div>
-          <div class="comp-phase-box">
-            <strong>Normalization</strong><br/>
-            = <em>Logical Design Phase</em> (Primary/Foreign Keys, 1NF, 2NF, 3NF, BCNF)
-          </div>
-          <div class="comp-phase-box">
-            <strong>Indexes</strong><br/>
-            = <em>Physical Design Phase</em> (Chapter 5: Heap/Sorted/Hash Tables & Indexes)
-          </div>
+  // Chapter 4 UI Intervention Banner (Module 20)
+  const ch4BannerHtml = mod.has_competency_banner
+    ? `
+    <div class="competency-explainer-banner">
+      <h4>💡 WGU Competency Name Decoder (How Chapters 4 & 5 Map to Your Exam)</h4>
+      <div class="competency-explainer-grid">
+        <div class="comp-phase-box">
+          <strong>Database Design</strong><br/>
+          = <em>Conceptual Design Phase</em> (Entities, Relationships, Attributes, Cardinality)
+        </div>
+        <div class="comp-phase-box">
+          <strong>Normalization</strong><br/>
+          = <em>Logical Design Phase</em> (Primary/Foreign Keys, 1NF, 2NF, 3NF, BCNF)
+        </div>
+        <div class="comp-phase-box">
+          <strong>Indexes</strong><br/>
+          = <em>Physical Design Phase</em> (Chapter 5: Heap/Sorted/Hash Tables & Indexes)
         </div>
       </div>
-    `
+    </div>
+  `
+    : '';
+
+  const zybooksHtml = mod.zybooks_sections
+    .map(
+      sec => `
+    <li class="zybooks-item">
+      <span>${escapeHtml(sec.section)}</span>
+      ${sec.is_core_concept ? '<span class="badge badge-core">Core Concept</span>' : ''}
+    </li>
+  `
+    )
+    .join('');
+
+  const topicsHtml = mod.topics.map(t => `<li>${escapeHtml(t)}</li>`).join('');
+
+  const shouldAutoOpenResources =
+    appState.track === 'foundations' ||
+    adaptiveStatus === 'critical' ||
+    mod.is_milestone ||
+    Boolean(appState.expandedResources[mod.module_id]) ||
+    compData.confidence === 'shaky' ||
+    compData.confidence === 'hard';
+
+  const curatedRes = getSortedAndCuratedResources(mod);
+
+  const resourcesItemsHtml = curatedRes.visible
+    .map(
+      res => `
+    <div class="resource-item">
+      <div class="resource-item-top">
+        <a href="${escapeHtml(res.url)}" target="_blank" rel="noopener noreferrer" class="resource-link">
+          ${escapeHtml(res.title)} &nearr;
+        </a>
+        <span class="resource-type-tag">${escapeHtml(res.type)}</span>
+      </div>
+      ${
+        res.instructions
+          ? `<div class="resource-instructions"><strong>Study Tip:</strong> ${escapeHtml(res.instructions)}</div>`
+          : ''
+      }
+    </div>
+  `
+    )
+    .join('');
+
+  const showMoreBtnHtml = curatedRes.hasMore
+    ? `
+    <button type="button" class="resources-toggle-btn show-all-res-btn" data-mod-id="${mod.module_id}">
+      ${
+        appState.showAllResources[mod.module_id]
+          ? 'Show fewer resources'
+          : `Show all ${curatedRes.total} supplemental resources`
+      }
+    </button>
+  `
+    : '';
+
+  const extraSupportHtml =
+    compData.confidence === 'hard' || compData.confidence === 'shaky'
+      ? `
+    <div class="extra-support-callout">
+      <strong>Tricky module? You don't have to get stuck alone:</strong>
+      <p>The next module is unlocked so you can keep moving, or use the links below to reinforce this topic:</p>
+      <div class="extra-support-links">
+        <a href="https://westerngovernorsuniversity.sharepoint.com/sites/AcademicCoachingCenter/SitePages/Peer-to-Peer-Coaching.aspx" target="_blank" rel="noopener noreferrer">🤝 Book a 1-on-1 Peer Tutor</a>
+        <a href="mailto:d426@wgu.edu?subject=Help%20with%20D426%20Module%20${mod.module_id}%20(${encodeURIComponent(sectionTitle)})">✉ Email Course Team (d426@wgu.edu)</a>
+      </div>
+    </div>
+  `
       : '';
 
-    // Zybooks sections list
-    const zybooksHtml = mod.zybooks_sections
-      .map(
-        sec => `
-      <li class="zybooks-item">
-        <span>${escapeHtml(sec.section)}</span>
-        ${sec.is_core_concept ? '<span class="badge badge-core">Core Concept</span>' : ''}
-      </li>
-    `
-      )
-      .join('');
-
-    // Topics list
-    const topicsHtml = mod.topics.map(t => `<li>${escapeHtml(t)}</li>`).join('');
-
-    // Determine if supplemental resources drawer should be open automatically
-    const shouldAutoOpenResources =
-      appState.track === 'foundations' ||
-      adaptiveStatus === 'critical' ||
-      mod.is_milestone ||
-      Boolean(appState.expandedResources[mod.module_id]) ||
-      compData.confidence === 'shaky' ||
-      compData.confidence === 'hard';
-
-    const curatedRes = getSortedAndCuratedResources(mod);
-
-    const resourcesItemsHtml = curatedRes.visible
-      .map(
-        res => `
-      <div class="resource-item">
-        <div class="resource-item-top">
-          <a href="${escapeHtml(res.url)}" target="_blank" rel="noopener noreferrer" class="resource-link">
-            ${escapeHtml(res.title)} &nearr;
-          </a>
-          <span class="resource-type-tag">${escapeHtml(res.type)}</span>
-        </div>
+  const resourcesSectionHtml =
+    curatedRes.total > 0
+      ? `
+    <div class="resources-section">
+      <button type="button" class="resources-toggle-btn toggle-res-drawer-btn" data-mod-id="${mod.module_id}">
         ${
-          res.instructions
-            ? `<div class="resource-instructions"><strong>Study Tip:</strong> ${escapeHtml(res.instructions)}</div>`
+          shouldAutoOpenResources
+            ? '▾ Hide Supplemental Resources'
+            : `▸ Need Extra Help? View Supplemental Resources (${curatedRes.total})`
+        }
+      </button>
+      <div class="resources-drawer ${shouldAutoOpenResources ? '' : 'hidden'}" id="resDrawer_${mod.module_id}">
+        <div class="resources-drawer-header">
+          <h4>Supplemental Study Resources (Read Zybooks First!)</h4>
+          ${showMoreBtnHtml}
+        </div>
+        <div class="resources-grid">
+          ${resourcesItemsHtml}
+        </div>
+        ${extraSupportHtml}
+      </div>
+    </div>
+  `
+      : extraSupportHtml;
+
+  // 80% Mastery Gate with Positive Encouragement Banner when >= 80%
+  const passedMasteryGate = isCompleted && compData.quizScore >= 80;
+  const masteryGateHtml = mod.is_mastery_gate
+    ? `
+    <div class="mastery-gate-box">
+      <strong>80% Mastery Checkpoint:</strong> Enter your Zybooks Practice Quiz score (%) to verify readiness before moving forward:
+      <div class="mastery-gate-row">
+        <input type="number" min="0" max="100" placeholder="e.g., 85" class="score-input" id="quizScoreInput_${mod.module_id}" value="${compData.quizScore !== undefined ? compData.quizScore : ''}" />
+        <button type="button" class="btn btn-primary btn-sm verify-score-btn" data-mod-id="${mod.module_id}">
+          ${isCompleted ? 'Update Score' : 'Verify Score & Complete Module'}
+        </button>
+        ${
+          isCompleted
+            ? `<button type="button" class="btn btn-outline btn-sm uncomplete-btn" data-mod-id="${mod.module_id}">Undo</button>`
             : ''
         }
       </div>
-    `
-      )
-      .join('');
-
-    const showMoreBtnHtml = curatedRes.hasMore
-      ? `
-      <button type="button" class="resources-toggle-btn show-all-res-btn" data-mod-id="${mod.module_id}">
-        ${
-          appState.showAllResources[mod.module_id]
-            ? 'Show fewer resources'
-            : `Show all ${curatedRes.total} supplemental resources`
-        }
-      </button>
-    `
-      : '';
-
-    // Extra Support Callout if student rated module as 'shaky' or 'hard'
-    const extraSupportHtml =
-      compData.confidence === 'hard' || compData.confidence === 'shaky'
-        ? `
-      <div class="extra-support-callout">
-        <strong>Tricky module? You don't have to get stuck alone:</strong>
-        <p>The next module is unlocked so you can keep moving, or use the links below to reinforce this topic:</p>
-        <div class="extra-support-links">
-          <a href="https://westerngovernorsuniversity.sharepoint.com/sites/AcademicCoachingCenter/SitePages/Peer-to-Peer-Coaching.aspx" target="_blank" rel="noopener noreferrer">🤝 Book a 1-on-1 Peer Tutor</a>
-          <a href="mailto:d426@wgu.edu?subject=Help%20with%20D426%20Module%20${mod.module_id}%20(${encodeURIComponent(sectionTitle)})">✉ Email Course Team (d426@wgu.edu)</a>
-        </div>
+      <div id="masteryWarning_${mod.module_id}" class="mastery-warning hidden">
+        <strong>Score Below 80%:</strong> You're getting closer! Review the supplemental resources below or email <strong>d426@wgu.edu</strong> / your assigned Course Instructor so we can help you lock down these concepts before the next chapter.
       </div>
-    `
-        : '';
+      <div id="masterySuccess_${mod.module_id}" class="mastery-success ${passedMasteryGate ? '' : 'hidden'}">
+        <strong>🎉 Awesome job scoring ${compData.quizScore || 80}%!</strong> You are doing great and have mastered this chapter's core concepts. Keep that momentum going into the next module below!
+      </div>
+    </div>
+  `
+    : '';
 
-    const resourcesSectionHtml =
-      curatedRes.total > 0
-        ? `
-      <div class="resources-section">
-        <button type="button" class="resources-toggle-btn toggle-res-drawer-btn" data-mod-id="${mod.module_id}">
-          ${
-            shouldAutoOpenResources
-              ? '▾ Hide Supplemental Resources'
-              : `▸ Need Extra Help? View Supplemental Resources (${curatedRes.total})`
-          }
+  const completionBarHtml = !mod.is_mastery_gate
+    ? `
+    <div class="completion-bar">
+      <span class="confidence-prompt">
+        ${isCompleted ? 'Module Completed! You can update your confidence rating anytime:' : 'Finished the Zybooks reading/labs? Rate your confidence to complete:'}
+      </span>
+      <div class="confidence-buttons">
+        <button type="button" class="btn-conf btn-conf-easy ${compData.confidence === 'easy' ? 'selected' : ''}" data-mod-id="${mod.module_id}" data-conf="easy">
+          🟢 Felt Easy / Got It
         </button>
-        <div class="resources-drawer ${shouldAutoOpenResources ? '' : 'hidden'}" id="resDrawer_${mod.module_id}">
-          <div class="resources-drawer-header">
-            <h4>Supplemental Study Resources (Read Zybooks First!)</h4>
-            ${showMoreBtnHtml}
-          </div>
-          <div class="resources-grid">
-            ${resourcesItemsHtml}
-          </div>
-          ${extraSupportHtml}
-        </div>
+        <button type="button" class="btn-conf btn-conf-shaky ${compData.confidence === 'shaky' ? 'selected' : ''}" data-mod-id="${mod.module_id}" data-conf="shaky">
+          🟡 A Little Shaky (Show Extra Resources)
+        </button>
+        <button type="button" class="btn-conf btn-conf-hard ${compData.confidence === 'hard' ? 'selected' : ''}" data-mod-id="${mod.module_id}" data-conf="hard">
+          🔴 Hard (Open Support & Resources)
+        </button>
+        ${
+          isCompleted
+            ? `<button type="button" class="btn btn-outline btn-sm uncomplete-btn" data-mod-id="${mod.module_id}">Undo</button>`
+            : ''
+        }
       </div>
-    `
-        : extraSupportHtml;
+    </div>
+  `
+    : '';
 
-    // 80% Mastery Gate for End of Chapter 1 (Mod 4) & Chapter 2 (Mod 10)
-    const masteryGateHtml = mod.is_mastery_gate
+  // Seamless Next-Module Transition Bar inside completed module
+  const nextModInCourse = allModules.find(m => m.module_id === mod.module_id + 1);
+  const transitionBannerHtml =
+    isCompleted && nextModInCourse
       ? `
-      <div class="mastery-gate-box">
-        <strong>80% Mastery Checkpoint:</strong> Enter your Zybooks Practice Quiz score (%) to verify readiness before moving forward:
-        <div class="mastery-gate-row">
-          <input type="number" min="0" max="100" placeholder="e.g., 85" class="score-input" id="quizScoreInput_${mod.module_id}" value="${compData.quizScore || ''}" />
-          <button type="button" class="btn btn-primary btn-sm verify-score-btn" data-mod-id="${mod.module_id}">
-            Verify Score & Complete Module
-          </button>
-        </div>
-        <div id="masteryWarning_${mod.module_id}" class="mastery-warning hidden">
-          <strong>Score Below 80%:</strong> We strongly recommend reviewing the supplemental resources above or emailing <strong>d426@wgu.edu</strong> / your assigned Course Instructor before moving to the next chapter!
-        </div>
-      </div>
-    `
+    <div class="next-module-transition">
+      <span><strong>✓ Module ${mod.module_id} Complete!</strong> Up next: <em>Module ${nextModInCourse.module_id}: ${escapeHtml(nextModInCourse.zybooks_sections.map(s => s.section).join(' & '))}</em></span>
+      <button type="button" class="btn btn-primary btn-sm jump-next-mod-btn" data-current-id="${mod.module_id}" data-next-id="${nextModInCourse.module_id}">
+        Continue to Module ${nextModInCourse.module_id} &darr;
+      </button>
+    </div>
+  `
       : '';
 
-    // Standard Confidence Rating Bar
-    const completionBarHtml = !mod.is_mastery_gate
-      ? `
-      <div class="completion-bar">
-        <span class="confidence-prompt">
-          ${isCompleted ? 'Module Completed! Update your confidence rating:' : 'Finished the Zybooks reading/labs? Rate your confidence to complete:'}
-        </span>
-        <div class="confidence-buttons">
-          <button type="button" class="btn-conf btn-conf-easy ${compData.confidence === 'easy' ? 'selected' : ''}" data-mod-id="${mod.module_id}" data-conf="easy">
-            🟢 Felt Easy / Got It
-          </button>
-          <button type="button" class="btn-conf btn-conf-shaky ${compData.confidence === 'shaky' ? 'selected' : ''}" data-mod-id="${mod.module_id}" data-conf="shaky">
-            🟡 A Little Shaky (Show Extra Resources)
-          </button>
-          <button type="button" class="btn-conf btn-conf-hard ${compData.confidence === 'hard' ? 'selected' : ''}" data-mod-id="${mod.module_id}" data-conf="hard">
-            🔴 Hard (Open Support & Resources)
-          </button>
-          ${
-            isCompleted
-              ? `<button type="button" class="btn btn-outline btn-sm uncomplete-btn" data-mod-id="${mod.module_id}">Undo</button>`
-              : ''
-          }
-        </div>
-      </div>
-    `
-      : '';
-
-    card.innerHTML = `
-      <div class="module-card-header" data-toggle-card="${mod.module_id}">
-        <div class="module-header-left">
-          <div class="module-status-dot">${isCompleted ? '✓' : mod.module_id}</div>
-          <div class="module-title-block">
-            <h3>Module ${mod.module_id}: ${escapeHtml(sectionTitle)}</h3>
-            <div class="module-meta-line">
-              <span>Chapter ${mod.chapter}</span> •
-              <span>${escapeHtml(mod.competency)}</span>
-            </div>
+  card.innerHTML = `
+    <div class="module-card-header" data-toggle-card="${mod.module_id}">
+      <div class="module-header-left">
+        <div class="module-status-dot">${isCompleted ? '✓' : mod.module_id}</div>
+        <div class="module-title-block">
+          <h3>Module ${mod.module_id}: ${escapeHtml(sectionTitle)}</h3>
+          <div class="module-meta-line">
+            <span>Chapter ${mod.chapter}</span> •
+            <span>${escapeHtml(mod.competency)}</span>
           </div>
         </div>
-        <div class="module-header-right">
-          ${badgesHtml}
-          <span class="chevron-icon">▼</span>
+      </div>
+      <div class="module-header-right">
+        ${badgesHtml}
+        <span class="chevron-icon">▼</span>
+      </div>
+    </div>
+
+    <div class="module-card-body">
+      ${ch4BannerHtml}
+
+      <div class="module-section-grid">
+        <div class="content-box">
+          <h4>1. Zybooks Reading & Labs (Complete First)</h4>
+          <ul class="zybooks-list">${zybooksHtml}</ul>
+        </div>
+        <div class="content-box">
+          <h4>2. Key Concepts & Focus Topics</h4>
+          <ul class="topics-list">${topicsHtml}</ul>
         </div>
       </div>
 
-      <div class="module-card-body">
-        ${ch4BannerHtml}
+      ${masteryGateHtml}
+      ${completionBarHtml}
+      ${resourcesSectionHtml}
+      ${transitionBannerHtml}
+    </div>
+  `;
 
-        <div class="module-section-grid">
-          <div class="content-box">
-            <h4>1. Zybooks Reading & Labs (Complete First)</h4>
-            <ul class="zybooks-list">${zybooksHtml}</ul>
-          </div>
-          <div class="content-box">
-            <h4>2. Key Concepts & Focus Topics</h4>
-            <ul class="topics-list">${topicsHtml}</ul>
-          </div>
-        </div>
+  return card;
+}
 
-        ${masteryGateHtml}
-        ${completionBarHtml}
-        ${resourcesSectionHtml}
-      </div>
-    `;
+/**
+ * Re-renders a single module card in place without collapsing it or jumping the page scroll.
+ */
+function updateSingleModuleCardInPlace(modId) {
+  const existingCard = document.getElementById(`moduleCard_${modId}`);
+  const mod = allModules.find(m => m.module_id === modId);
+  if (!existingCard || !mod) {
+    renderMainView();
+    return;
+  }
 
-    container.appendChild(card);
+  const nextActiveId = getNextActiveModuleId();
+  const newCard = createModuleCardElement(mod, nextActiveId);
+  existingCard.replaceWith(newCard);
+
+  // Also refresh active border highlight on all visible cards
+  document.querySelectorAll('.module-card').forEach(el => {
+    const id = Number(el.id.replace('moduleCard_', ''));
+    if (id === nextActiveId) {
+      el.classList.add('active-module');
+    } else {
+      el.classList.remove('active-module');
+    }
   });
 
   attachModuleCardListeners();
 }
 
 function attachModuleCardListeners() {
-  // Expand / Collapse Card Header
+  // Expand / Collapse Card Header (Persisted in appState.expandedCards)
   document.querySelectorAll('[data-toggle-card]').forEach(header => {
-    header.addEventListener('click', () => {
+    header.onclick = () => {
+      const modId = Number(header.dataset.toggleCard);
       const card = header.closest('.module-card');
-      card.classList.toggle('expanded');
-    });
+      const isNowExpanded = !card.classList.contains('expanded');
+      card.classList.toggle('expanded', isNowExpanded);
+      appState.expandedCards[modId] = isNowExpanded;
+      saveStateToStorage();
+    };
   });
 
-  // Confidence Rating Buttons (Easy, Shaky, Hard)
+  // Confidence Rating Buttons (Easy, Shaky, Hard) — Seamless In-Place Update!
   document.querySelectorAll('.btn-conf').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.onclick = e => {
       e.stopPropagation();
       const modId = Number(btn.dataset.modId);
       const conf = btn.dataset.conf;
@@ -890,33 +1179,74 @@ function attachModuleCardListeners() {
         confidence: conf
       };
 
+      // Keep the current card open so it never snaps shut unexpectedly!
+      appState.expandedCards[modId] = true;
+
       if (conf === 'shaky' || conf === 'hard') {
         appState.expandedResources[modId] = true;
       }
 
+      // Also auto-expand the next active module so it is ready when they scroll down
+      const nextActiveId = getNextActiveModuleId();
+      if (nextActiveId) {
+        appState.expandedCards[nextActiveId] = true;
+      }
+
       saveStateToStorage();
-      initializeDashboard();
-    });
+      renderHeaderMetrics();
+      renderDynamicAlerts();
+      updateSingleModuleCardInPlace(modId);
+      if (nextActiveId) {
+        updateSingleModuleCardInPlace(nextActiveId);
+      }
+    };
+  });
+
+  // Smooth "Continue to Next Module" button inside completed card
+  document.querySelectorAll('.jump-next-mod-btn').forEach(btn => {
+    btn.onclick = e => {
+      e.stopPropagation();
+      const nextId = Number(btn.dataset.nextId);
+      appState.expandedCards[nextId] = true;
+      saveStateToStorage();
+
+      let nextCardEl = document.getElementById(`moduleCard_${nextId}`);
+      if (!nextCardEl && appState.viewMode === 'sprint') {
+        // Next module is in the following week's sprint
+        appState.currentWeekIndex++;
+        saveStateToStorage();
+        renderSprintQueue();
+        nextCardEl = document.getElementById(`moduleCard_${nextId}`);
+      }
+      if (nextCardEl) {
+        nextCardEl.classList.add('expanded');
+        nextCardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    };
   });
 
   // Undo Completion Button
   document.querySelectorAll('.uncomplete-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.onclick = e => {
       e.stopPropagation();
       const modId = Number(btn.dataset.modId);
       delete appState.completedModules[modId];
+      appState.expandedCards[modId] = true;
       saveStateToStorage();
-      initializeDashboard();
-    });
+      renderHeaderMetrics();
+      renderDynamicAlerts();
+      updateSingleModuleCardInPlace(modId);
+    };
   });
 
-  // 80% Mastery Gate Verification Button
+  // 80% Mastery Gate Verification Button (With Encouragement Banner)
   document.querySelectorAll('.verify-score-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.onclick = e => {
       e.stopPropagation();
       const modId = Number(btn.dataset.modId);
       const inputEl = document.getElementById(`quizScoreInput_${modId}`);
       const warningEl = document.getElementById(`masteryWarning_${modId}`);
+      const successEl = document.getElementById(`masterySuccess_${modId}`);
       const score = Number(inputEl.value);
 
       if (!inputEl.value || isNaN(score)) {
@@ -924,8 +1254,12 @@ function attachModuleCardListeners() {
         return;
       }
 
+      // Always keep card open so student sees feedback banner!
+      appState.expandedCards[modId] = true;
+
       if (score < 80) {
         warningEl.classList.remove('hidden');
+        if (successEl) successEl.classList.add('hidden');
         appState.expandedResources[modId] = true;
         const resDrawer = document.getElementById(`resDrawer_${modId}`);
         if (resDrawer) resDrawer.classList.remove('hidden');
@@ -937,35 +1271,48 @@ function attachModuleCardListeners() {
           confidence: 'easy',
           quizScore: score
         };
+
+        const nextActiveId = getNextActiveModuleId();
+        if (nextActiveId) {
+          appState.expandedCards[nextActiveId] = true;
+        }
+
         saveStateToStorage();
-        initializeDashboard();
+        renderHeaderMetrics();
+        renderDynamicAlerts();
+        updateSingleModuleCardInPlace(modId);
+        if (nextActiveId) {
+          updateSingleModuleCardInPlace(nextActiveId);
+        }
       }
-    });
+    };
   });
 
-  // Toggle Supplemental Resources Drawer
+  // Toggle Supplemental Resources Drawer (In-Place without closing card)
   document.querySelectorAll('.toggle-res-drawer-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.onclick = e => {
       e.stopPropagation();
       const modId = Number(btn.dataset.modId);
       const drawer = document.getElementById(`resDrawer_${modId}`);
       const isHidden = drawer.classList.contains('hidden');
       appState.expandedResources[modId] = isHidden;
+      appState.expandedCards[modId] = true;
       saveStateToStorage();
-      renderMainView();
-    });
+      updateSingleModuleCardInPlace(modId);
+    };
   });
 
-  // Show All Supplemental Resources Toggle
+  // Show All Supplemental Resources Toggle (In-Place without closing card)
   document.querySelectorAll('.show-all-res-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.onclick = e => {
       e.stopPropagation();
       const modId = Number(btn.dataset.modId);
       appState.showAllResources[modId] = !appState.showAllResources[modId];
       appState.expandedResources[modId] = true;
+      appState.expandedCards[modId] = true;
       saveStateToStorage();
-      renderMainView();
-    });
+      updateSingleModuleCardInPlace(modId);
+    };
   });
 }
 
@@ -1059,16 +1406,14 @@ function openDateModal() {
 }
 
 function setupEventListeners() {
-  // Onboarding Form Live Warning Check
   const obForm = document.getElementById('onboardingForm');
-  obForm.addEventListener('change', checkShortTimelineWarning);
+  obForm.addEventListener('change', handleOnboardingInputChanges);
 
-  // Onboarding Form Submit
   obForm.addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('studentNameInput').value.trim();
     const dbExp = Number(document.querySelector('input[name="dbExp"]:checked').value);
-    const sqlExp = Number(document.querySelector('input[name="sqlExp"]:checked').value);
+    const sqlExp = dbExp === 0 ? 0 : Number(document.querySelector('input[name="sqlExp"]:checked').value);
     const studyStyle = document.querySelector('input[name="studyStyle"]:checked').value;
     const weeklyHours = document.querySelector('input[name="weeklyHours"]:checked').value;
     const targetDate = document.getElementById('targetOaDateInput').value;
@@ -1089,6 +1434,7 @@ function setupEventListeners() {
     appState.track = calculateInvisibleTrack(dbExp, sqlExp);
     appState.hasTakenPa = hasTakenPaVal === 'yes';
 
+    ensureNextActiveModuleExpanded();
     saveStateToStorage();
     document.getElementById('onboardingModal').classList.add('hidden');
     initializeDashboard();
@@ -1127,11 +1473,11 @@ function setupEventListeners() {
 
     appState.hasTakenPa = true;
     appState.paReport = report;
-    // Iterative Remediation: If updating PA again and flags remain, trigger Quick Plan
     if (isRetake && hasAnyFlags) {
       appState.quickPlanActive = true;
     }
 
+    ensureNextActiveModuleExpanded();
     saveStateToStorage();
     document.getElementById('paAnalyzerModal').classList.add('hidden');
     initializeDashboard();
@@ -1141,20 +1487,26 @@ function setupEventListeners() {
     document.getElementById('paAnalyzerModal').classList.add('hidden');
   });
 
-  // Sprint Week Navigation
-  document.getElementById('prevWeekBtn').addEventListener('click', () => {
+  // Top & Bottom Sprint Week Navigation
+  const goPrevWeek = () => {
     if (appState.currentWeekIndex > 0) {
       appState.currentWeekIndex--;
       saveStateToStorage();
       renderSprintQueue();
+      document.getElementById('sprintNavSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  });
-
-  document.getElementById('nextWeekBtn').addEventListener('click', () => {
+  };
+  const goNextWeek = () => {
     appState.currentWeekIndex++;
     saveStateToStorage();
     renderSprintQueue();
-  });
+    document.getElementById('sprintNavSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  document.getElementById('prevWeekBtn').addEventListener('click', goPrevWeek);
+  document.getElementById('nextWeekBtn').addEventListener('click', goNextWeek);
+  document.getElementById('prevWeekBottomBtn').addEventListener('click', goPrevWeek);
+  document.getElementById('nextWeekBottomBtn').addEventListener('click', goNextWeek);
 
   // View Mode Toggle
   const toggleViewMode = () => {
@@ -1166,11 +1518,21 @@ function setupEventListeners() {
   document.getElementById('openPaModalBtn').addEventListener('click', openPaModal);
 
   // Full Plan Chapter Filter Chips
-  document.querySelectorAll('#fullPlanFilterBar .chip').forEach(chip => {
+  document.querySelectorAll('#chapterFilterGroup .chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      document.querySelectorAll('#fullPlanFilterBar .chip').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('#chapterFilterGroup .chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       appState.chapterFilter = chip.dataset.chapter;
+      renderFullPlanQueue();
+    });
+  });
+
+  // Full Plan Confidence / Status Filter Chips
+  document.querySelectorAll('#confidenceFilterGroup .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#confidenceFilterGroup .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      appState.confidenceFilter = chip.dataset.confFilter;
       renderFullPlanQueue();
     });
   });

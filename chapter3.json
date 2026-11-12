@@ -32,6 +32,26 @@
       },
       {
         "type": "interactive",
+        "title": "SQLBolt Lesson 1: SELECT Queries 101",
+        "url": "https://sqlbolt.com/lesson/select_queries_introduction"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 2: Queries with Constraints (Pt. 1)",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_constraints"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 4: Filtering and Sorting Query Results",
+        "url": "https://sqlbolt.com/lesson/filtering_sorting_query_results"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 8: A Short Note on NULLs",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_nulls"
+      },
+      {
+        "type": "interactive",
         "title": "OneCompiler: Live MySQL SELECT Playground",
         "url": "https://onecompiler.com/mysql/44kjtx28y"
       },
@@ -88,8 +108,23 @@
     "resources": [
       {
         "type": "video",
+        "title": "Watch: ZyBooks Labs Walkthrough Video Folder (Panopto)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?pid=d94d8d6b-3bce-4353-85d4-b1c6012373f0"
+      },
+      {
+        "type": "video",
         "title": "Watch: Filtering Data with IN, BETWEEN, and LIKE",
         "url": "https://www.youtube.com/watch?v=4Uv0o8IBqw0&list=PLGPGLQRuosDJNfq8vdtLSZ5YbNbkYZkSU&index=5"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 3: Queries with Constraints (Pt. 2 — IN, LIKE & Wildcards)",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_constraints_pt_2"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Review: Simple SELECT Queries",
+        "url": "https://sqlbolt.com/lesson/select_queries_review"
       },
       {
         "type": "reference",
@@ -110,11 +145,6 @@
         "type": "reference",
         "title": "W3Schools: MySQL LIKE Operator & Wildcards",
         "url": "https://www.w3schools.com/mysql/mysql_like.asp"
-      },
-      {
-        "type": "interactive",
-        "title": "SQLBolt Lab Walkthrough: Queries with Constraints",
-        "url": "https://sqlbolt.com/lesson/select_queries_with_constraints"
       }
     ]
   },
@@ -147,6 +177,26 @@
         "type": "video",
         "title": "Watch: SQL GROUP BY Clause Explained — Database Star (5 min)",
         "url": "https://www.youtube.com/watch?v=x2_mOJ3skSc"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 9: Queries with Expressions",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_expressions"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 10: Queries with Aggregates (Pt. 1)",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_aggregates"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 11: Queries with Aggregates (Pt. 2 — HAVING)",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_aggregates_pt_2"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 12: Order of Execution of a Query",
+        "url": "https://sqlbolt.com/lesson/select_queries_order_of_execution"
       },
       {
         "type": "reference",
@@ -210,6 +260,11 @@
     "resources": [
       {
         "type": "video",
+        "title": "Watch: ZyBooks Labs Walkthrough Video Folder (Panopto)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?pid=d94d8d6b-3bce-4353-85d4-b1c6012373f0"
+      },
+      {
+        "type": "video",
         "title": "Watch: MySQL JOINs Explained — Bro Code (5 min)",
         "url": "https://www.youtube.com/watch?v=G3lJAxg1cy8"
       },
@@ -217,6 +272,16 @@
         "type": "video",
         "title": "Watch: Joins & Aggregate Functions Cohort Recording (2.5 hr | Password: hJPBmx*6)",
         "url": "https://wgu.webex.com/recordingservice/sites/wgu/recording/d62077c636b945a891116bccb4da7967/playback"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 7: OUTER JOINs (LEFT, RIGHT, FULL)",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_outer_joins"
+      },
+      {
+        "type": "interactive",
+        "title": "OneCompiler: Live SQL Joins Playground",
+        "url": "https://onecompiler.com/mysql/44gybyagu"
       },
       {
         "type": "reference",
@@ -229,19 +294,9 @@
         "url": "https://www.w3schools.com/mysql/mysql_join.asp"
       },
       {
-        "type": "interactive",
-        "title": "OneCompiler: Live SQL Joins Playground",
-        "url": "https://onecompiler.com/mysql/44gybyagu"
-      },
-      {
-        "type": "interactive",
-        "title": "SQLBolt Lab Walkthrough: Multi-Table Queries with JOINs",
-        "url": "https://sqlbolt.com/lesson/select_queries_with_joins"
-      },
-      {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: Joins Video & Interactive Join Activity",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       },
       {
         "type": "quiz",
@@ -326,7 +381,7 @@
       },
       {
         "type": "cohort",
-        "title": "D427 Cohort 2: Queries, Views & Indexes (Views Focus)",
+        "title": "D427 Cohort 2: Queries, Views & Indexes",
         "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000d4yDIAQ"
       }
     ]
@@ -365,17 +420,18 @@
     ],
     "topics": [
       "Milestone Check: Test your mastery of Competency 2 (Determines SQL Queries)",
-      "Complete both Competency 2 Checkpoint Quizzes below before moving to Database Design"
+      "Multiple attempts are allowed on both Competency 2 Checkpoint Quizzes below",
+      "Have a question on a quiz item? Reach out to the instruction team at d426@wgu.edu!"
     ],
     "resources": [
       {
         "type": "quiz",
-        "title": "Competency 2 Milestone Quiz 1",
+        "title": "Competency 2 Milestone Quiz 1 (Multiple Attempts Allowed)",
         "url": "https://forms.cloud.microsoft/r/x5BFWfHDLu"
       },
       {
         "type": "quiz",
-        "title": "Competency 2 Milestone Quiz 2",
+        "title": "Competency 2 Milestone Quiz 2 (Multiple Attempts Allowed)",
         "url": "https://forms.cloud.microsoft/r/mMibgWr7LS"
       }
     ]

@@ -30,6 +30,16 @@
         "url": "https://westerngovernorsuniversity.sharepoint.com/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/../../../../../../:v:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/Sublanguages%20_%20See%20Data%20Management%20Big%20Picture%20(PB)_default_4a43e30b.mp4?csf=1&web=1&e=WWg81w"
       },
       {
+        "type": "interactive",
+        "title": "SQLBolt: Introduction to SQL",
+        "url": "https://sqlbolt.com/lesson/introduction"
+      },
+      {
+        "type": "interactive",
+        "title": "Interactive Activity: DDL vs. DML Syntax Drag & Drop",
+        "url": "https://yourfavci.github.io/DM.github.io/SyntaxActivity/index.html"
+      },
+      {
         "type": "article",
         "title": "GeeksforGeeks: SQL DDL, DQL, DML, DCL, and TCL Commands",
         "url": "https://www.geeksforgeeks.org/sql/sql-ddl-dql-dml-dcl-tcl-commands/"
@@ -45,11 +55,6 @@
         "url": "https://www.w3schools.com/mysql/mysql_drop_db.asp"
       },
       {
-        "type": "interactive",
-        "title": "Interactive Activity: DDL vs. DML Syntax Drag & Drop",
-        "url": "https://yourfavci.github.io/DM.github.io/SyntaxActivity/index.html"
-      },
-      {
         "type": "quiz",
         "title": "Practice Quiz: DDL vs. DML Commands Only",
         "url": "https://forms.office.com/r/76PctyKXmX"
@@ -57,7 +62,7 @@
       {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: DDL vs. DML",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -91,6 +96,26 @@
     ],
     "resources": [
       {
+        "type": "video",
+        "title": "Watch: ZyBooks Labs Walkthrough Video Folder (Panopto)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?pid=d94d8d6b-3bce-4353-85d4-b1c6012373f0"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 16: Creating Tables",
+        "url": "https://sqlbolt.com/lesson/creating_tables"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 17: Altering Tables",
+        "url": "https://sqlbolt.com/lesson/altering_tables"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 18: Dropping Tables",
+        "url": "https://sqlbolt.com/lesson/dropping_tables"
+      },
+      {
         "type": "reference",
         "title": "W3Schools: MySQL Data Types Reference",
         "url": "https://www.w3schools.com/mysql/mysql_datatypes.asp"
@@ -108,7 +133,7 @@
       {
         "type": "cohort",
         "title": "Self-Paced Mini Cohort: Data Types & Table Management",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -146,6 +171,11 @@
     "resources": [
       {
         "type": "video",
+        "title": "Watch: ZyBooks Labs Walkthrough Video Folder (Panopto)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?pid=d94d8d6b-3bce-4353-85d4-b1c6012373f0"
+      },
+      {
+        "type": "video",
         "title": "Watch: Understanding NULL Values in SQL",
         "url": "https://www.youtube.com/watch?v=bTFJ3eeR3_s"
       },
@@ -158,6 +188,26 @@
         "type": "video",
         "title": "Watch: CRUD Operations (INSERT, SELECT, UPDATE, DELETE) (4 min)",
         "url": "https://www.youtube.com/watch?v=RM_NiPSaPG0"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 8: A Short Note on NULLs",
+        "url": "https://sqlbolt.com/lesson/select_queries_with_nulls"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 13: Inserting Rows",
+        "url": "https://sqlbolt.com/lesson/inserting_rows"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 14: Updating Rows",
+        "url": "https://sqlbolt.com/lesson/updating_rows"
+      },
+      {
+        "type": "interactive",
+        "title": "SQLBolt Lesson 15: Deleting Rows",
+        "url": "https://sqlbolt.com/lesson/deleting_rows"
       },
       {
         "type": "reference",
@@ -186,7 +236,7 @@
       },
       {
         "type": "cohort",
-        "title": "D427 Cohort 1: DDL and DML (Syntax Heavy)",
+        "title": "D427 Cohort 1: DDL and DML (Syntax Focused)",
         "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000d4oXIAQ"
       }
     ]
@@ -261,6 +311,11 @@
     "resources": [
       {
         "type": "video",
+        "title": "Watch: ZyBooks Labs Walkthrough Video Folder (Panopto)",
+        "url": "https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?pid=d94d8d6b-3bce-4353-85d4-b1c6012373f0"
+      },
+      {
+        "type": "video",
         "title": "Watch: MySQL UNIQUE Constraint Explained — Bro Code",
         "url": "https://www.youtube.com/watch?v=Of_-2pBeL0g&list=PLZPZq0r_RZOMskz6MdsMOgxzheIyjo-BZ&index=10"
       },
@@ -288,11 +343,6 @@
         "type": "reference",
         "title": "W3Schools: MySQL DEFAULT Constraint",
         "url": "https://www.w3schools.com/mysql/mysql_default.asp"
-      },
-      {
-        "type": "interactive",
-        "title": "SQLBolt: Interactive SQL Lesson & Practice",
-        "url": "https://sqlbolt.com/lesson/introduction"
       }
     ]
   },
@@ -312,9 +362,14 @@
     ],
     "resources": [
       {
+        "type": "pdf",
+        "title": "D426 Study Sheet Summary (Chapter 2 Review)",
+        "url": "https://westerngovernorsuniversity.sharepoint.com/:b:/r/sites/DataScienceTeam/Shared%20Documents/Undergraduate%20Team/D426/Student%20Facing%20Resources/D426%20Study%20Sheet%20Summary.pdf?d=w3e5779c057bd4daa8eee230d4521fdf7&csf=1&web=1&e=IxV13r"
+      },
+      {
         "type": "cohort",
         "title": "All Self-Paced Mini Cohorts Hub",
-        "url": "https://srm.lightning.force.com/apex/CourseCohortStudentEnrollment?id=a2yS6000000hOezIAE"
+        "url": "https://srm.my.salesforce.com/apex/CohortLiveEvent?id=a2wS6000002P0LR"
       }
     ]
   },
@@ -331,17 +386,18 @@
     ],
     "topics": [
       "Milestone Check: Test your mastery of Competency 1 (Explains Database Attributes and SQL Commands)",
-      "Complete both one-attempt Microsoft Forms Checkpoint Quizzes below"
+      "Multiple attempts are allowed on both Microsoft Forms Checkpoint Quizzes below",
+      "Have a question on a quiz item? Reach out to the instruction team at d426@wgu.edu!"
     ],
     "resources": [
       {
         "type": "quiz",
-        "title": "Competency 1 Milestone Quiz 1 (One Attempt)",
+        "title": "Competency 1 Milestone Quiz 1 (Multiple Attempts Allowed)",
         "url": "https://forms.cloud.microsoft/r/suWpQjrVPC"
       },
       {
         "type": "quiz",
-        "title": "Competency 1 Milestone Quiz 2 (One Attempt)",
+        "title": "Competency 1 Milestone Quiz 2 (Multiple Attempts Allowed)",
         "url": "https://forms.cloud.microsoft/r/3ECuQ1SQtU"
       }
     ]

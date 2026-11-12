@@ -104,7 +104,7 @@
     <!-- Dynamic Alerts: Pacing Recalibration, Fast-Track Day 1, Delayed PA Prompt, Silent Mastery -->
     <div id="alertsContainer"></div>
 
-    <!-- Sprint Navigation Bar (Shown in Weekly Sprint Mode) -->
+    <!-- Top Sprint Navigation Bar (Shown in Weekly Sprint Mode) -->
     <section id="sprintNavSection" class="sprint-nav-bar">
       <button id="prevWeekBtn" class="btn btn-nav" aria-label="Previous Week">
         &larr; Previous Week
@@ -120,24 +120,49 @@
 
     <!-- Filter Bar (Shown in Full Study Plan Mode) -->
     <section id="fullPlanFilterBar" class="full-plan-filter hidden">
-      <div class="filter-group">
-        <span class="filter-label">Filter Chapter:</span>
-        <button class="chip active" data-chapter="all">All Chapters</button>
-        <button class="chip" data-chapter="1">Ch 1</button>
-        <button class="chip" data-chapter="2">Ch 2</button>
-        <button class="chip" data-chapter="3">Ch 3</button>
-        <button class="chip" data-chapter="4">Ch 4</button>
-        <button class="chip" data-chapter="5">Ch 5</button>
+      <div class="filter-row">
+        <div class="filter-group" id="chapterFilterGroup">
+          <span class="filter-label">Chapter:</span>
+          <button class="chip active" data-chapter="all">All Chapters</button>
+          <button class="chip" data-chapter="1">Ch 1</button>
+          <button class="chip" data-chapter="2">Ch 2</button>
+          <button class="chip" data-chapter="3">Ch 3</button>
+          <button class="chip" data-chapter="4">Ch 4</button>
+          <button class="chip" data-chapter="5">Ch 5</button>
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" id="showOptionalToggle" checked />
+          Show Optional / Skimmed Modules
+        </label>
       </div>
-      <label class="checkbox-label">
-        <input type="checkbox" id="showOptionalToggle" checked />
-        Show Optional / Skimmed Modules
-      </label>
+      <div class="filter-row filter-row-secondary">
+        <div class="filter-group" id="confidenceFilterGroup">
+          <span class="filter-label">Confidence / Status:</span>
+          <button class="chip active" data-conf-filter="all">All Statuses</button>
+          <button class="chip" data-conf-filter="todo">To Do</button>
+          <button class="chip chip-easy" data-conf-filter="easy">🟢 Felt Easy / Got It</button>
+          <button class="chip chip-shaky" data-conf-filter="shaky">🟡 A Little Shaky</button>
+          <button class="chip chip-hard" data-conf-filter="hard">🔴 Hard</button>
+        </div>
+      </div>
     </section>
 
     <!-- Modules Queue Container -->
     <section id="modulesContainer" class="modules-queue">
       <!-- Dynamically populated via app.js -->
+    </section>
+
+    <!-- Bottom Sprint Navigation Bar (Shown in Weekly Sprint Mode) -->
+    <section id="sprintNavBottomSection" class="sprint-nav-bar sprint-nav-bottom">
+      <button id="prevWeekBottomBtn" class="btn btn-nav" aria-label="Previous Week">
+        &larr; Previous Week
+      </button>
+      <div class="sprint-title-group">
+        <span id="sprintBottomLabel" class="sprint-subtitle">Week 1 Sprint</span>
+      </div>
+      <button id="nextWeekBottomBtn" class="btn btn-nav" aria-label="Next Week">
+        Next Week &rarr;
+      </button>
     </section>
 
   </main>
@@ -182,7 +207,7 @@
       <div class="modal-header">
         <span class="course-badge">Welcome to WGU D426</span>
         <h2>Build Your Personalized Study Plan</h2>
-        <p>Answer 6 quick questions so we can calibrate your weekly pacing and learning resources.</p>
+        <p>Answer 6 quick questions so we can calibrate your weekly pacing, daily buckets, and learning resources.</p>
       </div>
       <form id="onboardingForm" class="modal-body">
         <div class="form-group">
@@ -195,33 +220,36 @@
           <div class="radio-stack">
             <label class="radio-card">
               <input type="radio" name="dbExp" value="0" required />
-              <span>"I do not know anything about databases or database management."</span>
+              <span>I do not know anything about databases or database management.</span>
             </label>
             <label class="radio-card">
               <input type="radio" name="dbExp" value="1" />
-              <span>"I know the basics, like what tables and primary keys are."</span>
+              <span>I know the basics, like what tables and primary keys are.</span>
             </label>
             <label class="radio-card">
               <input type="radio" name="dbExp" value="2" />
-              <span>"I have worked with relational databases before."</span>
+              <span>I have worked with relational databases before.</span>
             </label>
           </div>
         </div>
 
         <div class="form-group">
           <label><strong>2. What is your experience level with writing SQL?</strong></label>
+          <div id="sqlBeginnerLockNote" class="field-hint hidden" style="color: var(--accent-cerulean); font-weight: 500;">
+            Since you are brand new to database concepts, we have automatically set your SQL starting point to Beginner so you get full foundational support.
+          </div>
           <div class="radio-stack">
-            <label class="radio-card">
+            <label class="radio-card" id="sqlOpt0Card">
               <input type="radio" name="sqlExp" value="0" required />
-              <span>"I have never written a query."</span>
+              <span>I have never written a query.</span>
             </label>
-            <label class="radio-card">
+            <label class="radio-card" id="sqlOpt1Card">
               <input type="radio" name="sqlExp" value="1" />
-              <span>"I can write basic SELECT and JOIN statements."</span>
+              <span>I can write basic SELECT and JOIN statements.</span>
             </label>
-            <label class="radio-card">
+            <label class="radio-card" id="sqlOpt2Card">
               <input type="radio" name="sqlExp" value="2" />
-              <span>"I write heavy SQL statements regularly for work or projects."</span>
+              <span>I write heavy SQL statements regularly for work or projects.</span>
             </label>
           </div>
         </div>
@@ -231,15 +259,15 @@
           <div class="radio-stack">
             <label class="radio-card">
               <input type="radio" name="studyStyle" value="steady" required />
-              <span>"Slow and steady (a little bit every day)"</span>
+              <span>Slow and steady (a little bit every day)</span>
             </label>
             <label class="radio-card">
               <input type="radio" name="studyStyle" value="accelerating" />
-              <span>"Accelerating (heavy daily studying)"</span>
+              <span>Accelerating (heavy daily studying)</span>
             </label>
             <label class="radio-card">
               <input type="radio" name="studyStyle" value="weekend" />
-              <span>"Weekend Warrior (heavy cramming on weekends, light on weekdays)"</span>
+              <span>Weekend Warrior (heavy cramming on weekends, light on weekdays)</span>
             </label>
           </div>
         </div>
@@ -271,7 +299,7 @@
           <p class="field-hint">Note: This is not a hard deadline! Having a goal to reach just makes it easier to stay motivated, and you can always adjust this date later based on your progress.</p>
           <input type="date" id="targetOaDateInput" required class="form-input" />
           <div id="shortTimelineWarning" class="inline-warning hidden">
-            <strong>Heads up:</strong> Starting from scratch with a short timeline is ambitious! Consider giving yourself at least 21–30 days so you can master Chapters 4 and 5 comfortably—or keep your chosen date if you're ready to sprint.
+            <strong>Heads up:</strong> Starting from scratch with a short timeline is ambitious! Consider giving yourself at least 21–30 days so you can master Chapters 4 and 5 comfortably.
           </div>
         </div>
 
@@ -280,15 +308,15 @@
           <div class="radio-stack">
             <label class="radio-card">
               <input type="radio" name="learningPref" value="visual" required />
-              <span>"Visual: I prefer video walkthroughs and lectures."</span>
+              <span>Visual: I prefer video walkthroughs and lectures.</span>
             </label>
             <label class="radio-card">
               <input type="radio" name="learningPref" value="text" />
-              <span>"Text-based: I prefer written summaries and guides."</span>
+              <span>Text-based: I prefer written summaries and guides.</span>
             </label>
             <label class="radio-card">
               <input type="radio" name="learningPref" value="handson" />
-              <span>"Hands-on: Just give me extra practice labs."</span>
+              <span>Hands-on: Just give me extra practice labs.</span>
             </label>
           </div>
         </div>
